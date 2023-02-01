@@ -45,6 +45,8 @@
       const app = initializeApp(firebaseConfig);
     </script>
 
+    @laravelPWA
+
     </head>
 
     <body class="{{ $class ?? '' }}">

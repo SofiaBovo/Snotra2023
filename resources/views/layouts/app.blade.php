@@ -33,6 +33,7 @@
   };
   const app = initializeApp(firebaseConfig);
 </script>
+@laravelPWA
 </head>
 <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 <body>
