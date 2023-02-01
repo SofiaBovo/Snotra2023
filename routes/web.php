@@ -13,6 +13,10 @@ Route::get('home', function () {
     //
 })->name('home');
 
+Route::get('/offline', function(){
+    return view('vendor.laravelpwa.offline');
+});
+
 /*Chat*/
 Route::get('/index', 'App\Http\Controllers\vendor\Chatify\MessagesController@index')->name(config('chatify.routes.prefix'));
 Route::post('/idInfo', 'App\Http\Controllers\Vendor\Chatify\MessagesController@idFetchData');
