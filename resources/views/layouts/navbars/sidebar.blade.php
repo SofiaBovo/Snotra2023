@@ -618,8 +618,6 @@ else{?>
       foreach($tipodocente as $tipo){
         $tipodoc="$tipo->especialidad";
       }
-      ?>
-      <?php 
       if($tipodoc=='Grado'){?>
         <li class="nav-item">
         <a class="nav-link" data-toggle="collapse" href="#asistencias" aria-expanded="false">

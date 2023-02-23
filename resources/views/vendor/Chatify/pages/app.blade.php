@@ -6,28 +6,26 @@
 <h4 class="card-title "> Central de mensajes</h4>   
 </div>
 <div class="card-body">
-
               <div class="modal fade bd-example-modal-lg" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
               <div class="modal-dialog modal-lg" style="width:320px;">
               <div class="modal-content">
-              <div class="text-right" style="margin-right:10px;margin-top: 10px;">
-              <button type="button" class="close" data-dismiss="modal" title="Cerrar">&times;</button>
+              <div class="modal-header"><h5 class="modal-title" id="exampleModalLabel"><strong>Configuración del perfil</strong></h5>
+<button type="button" class="close" data-dismiss="modal" title="Cerrar">&times;</button>
               </div>
               <div class="modal-body">
-                <h5 class="modal-title text-center" id="exampleModalLabel" style="color:#606679;"><span><strong>Configuración de perfil</strong></span></h5>
                <form id="update-settings" action="{{ route('avatar.update') }}" enctype="multipart/form-data" method="POST">
                   @csrf
-                  {{-- <div class="app-modal-header">Actualiza la configuración de tu perfil</div> --}}
+                  
                   <div class="app-modal-body">
                       {{-- Udate profile avatar --}}
-                      <div class="avatar av-l upload-avatar-preview chatify-d-flex"
-                      style="background-image: url('{{ Chatify::getUserWithAvatar(Auth::user())->avatar }}');"
+                      <div class="avatar av-l upload-avatar-preview"
+                      style="background-image: url('{{ asset('/storage/public/'.config('chatify.user_avatar.folder').'/'.Auth::user()->avatar) }}');"
                       ></div>
                       <div class="text-center">
                       <p class="upload-avatar-details"></p>
                       <label class="app-btn a-btn-primary update" style="background-color:{{$messengerColor}}">
                           Subir nueva
-                          <input class="upload-avatar chatify-d-none" accept="image/*" name="avatar" type="file" />
+                          <input class="upload-avatar" accept="image/*" name="avatar" type="file" style="display: none" />
                       </label>
                       {{-- change messenger color  --}}
                       <p class="divider"></p>

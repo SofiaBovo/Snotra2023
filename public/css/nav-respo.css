@@ -29,7 +29,9 @@
     -moz-user-select: none;
     -ms-user-select: none;
     user-select: none;
-    width: 15px;
+    margin-top:-3%;
+    margin-right:3%; 
+    width: 30px;
     height: 30px;
     text-indent: -9999px;
     overflow: hidden;
