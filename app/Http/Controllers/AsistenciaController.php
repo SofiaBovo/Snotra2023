@@ -11,11 +11,11 @@ use App\Models\Grado;
 use App\Models\Asistencia;
 use App\Models\AsistenciaEspecial;
 use App\Models\Alumno;
+use Illuminate\Support\Str;
 
 class AsistenciaController extends Controller
 {
-    public function index()
-    {
+    public function index() {
     $idpersona= Auth::user()->idpersona;
     $tipodocente=Docente::where('id',$idpersona)->get();
     foreach($tipodocente as $tipo){
@@ -31,7 +31,6 @@ class AsistenciaController extends Controller
       $idaño="$activo->id";
       $descripcionaño="$activo->descripcion";
     }
-
     $meses = array('Marzo', 'Abril', 'Mayo', 'Junio',
        'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre');
     if($tipodoc=='Grado'){
@@ -40,37 +39,37 @@ class AsistenciaController extends Controller
     if($mes==1){
     $mes='Enero';
     }
-    if($mes==2){
+    elseif($mes==2){
     $mes='Febrero';
     }
-    if($mes==3){
+    elseif($mes==3){
     $mes='Marzo';
     }
-    if($mes==4){
+    elseif($mes==4){
     $mes='Abril';
     }
-    if($mes==5){
+    elseif($mes==5){
     $mes='Mayo';
     }
-    if($mes==6){
+    elseif($mes==6){
     $mes='Junio';
     }
-    if($mes==7){
+    elseif($mes==7){
     $mes='Julio';
     }
-    if($mes==8){
+    elseif($mes==8){
     $mes='Agosto';
     }
-    if($mes==9){
+    elseif($mes==9){
     $mes='Septiembre';
     }
-    if($mes==10){
+    elseif($mes==10){
     $mes='Octubre';
     }
-    if($mes==11){
+    elseif($mes==11){
     $mes='Noviembre';
     }
-    if($mes==12){
+    else{
     $mes='Diciembre';
     }
     $infoasistencias=Asistencia::where('docente',Auth::user()->idpersona)->where('colegio_id',$idcolegio)->where('grado',$gradodocente)->where('año_id',$idaño)->where('mes',$mes)->get();
@@ -93,8 +92,7 @@ class AsistenciaController extends Controller
     else{
     return view('asistencia.asistencia',compact('tipodoc','informacionperiodo','descripcionaño','infoaño','meses','infoasistencia','infoasistencias','mes')); 
     }
-    
-    }
+}
     if($tipodoc!='Grado'){
     $meses = array('Marzo', 'Abril', 'Mayo', 'Junio',
        'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre');

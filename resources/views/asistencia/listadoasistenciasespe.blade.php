@@ -92,6 +92,9 @@ $detect = new Mobile_Detect;
                     if($mes=='Abril' or $mes=='Junio' or $mes=='Septiembre' or $mes=='Noviembre'){
                       $diasmes=30;
                     }
+                    if($mes=='Febrero'){
+                      $diasmes=28;
+                    }
                       for ($i=1; $i <=$diasmes ; $i++) {?>
                       <th>
                       {{$i}}
