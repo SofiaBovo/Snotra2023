@@ -110,7 +110,6 @@ $detect = new Mobile_Detect;
       </div>
           
       <div class="row" style="margin-right: 3px; margin-left: 3px;">
-          <div class="col">
             <label>Domicilio</label>
             <input type="text" name="domiciliodocente" class="form-control" value="{{ old('domiciliodocente') }}">
             @if ($errors->has('domiciliodocente'))
@@ -119,7 +118,9 @@ $detect = new Mobile_Detect;
                 </div>
               @endif
           </div>
-           <div class="col">
+
+
+           <div class="row" style="margin-right: 3px; margin-left: 3px;">
          <label>Localidad</label>
              <input type="text" name="localidaddocente" class="form-control" value="{{ old('localidaddocente') }}">
             @if ($errors->has('localidad'))
@@ -128,7 +129,7 @@ $detect = new Mobile_Detect;
                 </div>
               @endif
             </div>
-          <div class="col">
+          <div class="row" style="margin-right: 3px; margin-left: 3px;">
           <label>Provincia</label>
           <input type="text" name="provinciadocente" class="form-control" value="{{ old('provinciadocente') }}">
           @if ($errors->has('provinciadocente'))
@@ -137,7 +138,7 @@ $detect = new Mobile_Detect;
           </div>
           @endif
           </div>
-        </div>
+        
       <div class="row" style="margin-right: 3px; margin-left: 3px;">
         <label>Teléfono celular</label>
         <input type="text" name="telefonodocente" class="form-control" value="{{ old('telefonodocente') }}">
