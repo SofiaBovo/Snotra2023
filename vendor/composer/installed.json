@@ -2859,23 +2859,23 @@
         },
         {
             "name": "munafio/chatify",
-            "version": "v1.5.1",
-            "version_normalized": "1.5.1.0",
+            "version": "v1.5.6",
+            "version_normalized": "1.5.6.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/munafio/chatify.git",
-                "reference": "164ee93db1862dfabcc8c08d9a4069f4f4cf2164"
+                "reference": "f5197f8e89d7d1315515d80ac2a867b5e88fabf0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/munafio/chatify/zipball/164ee93db1862dfabcc8c08d9a4069f4f4cf2164",
-                "reference": "164ee93db1862dfabcc8c08d9a4069f4f4cf2164",
+                "url": "https://api.github.com/repos/munafio/chatify/zipball/f5197f8e89d7d1315515d80ac2a867b5e88fabf0",
+                "reference": "f5197f8e89d7d1315515d80ac2a867b5e88fabf0",
                 "shasum": ""
             },
             "require": {
                 "pusher/pusher-php-server": "^7.0"
             },
-            "time": "2022-06-09T08:10:11+00:00",
+            "time": "2023-01-26T20:31:56+00:00",
             "type": "library",
             "extra": {
                 "laravel": {
@@ -2918,7 +2918,7 @@
             ],
             "support": {
                 "issues": "https://github.com/munafio/chatify/issues",
-                "source": "https://github.com/munafio/chatify/tree/v1.5.1"
+                "source": "https://github.com/munafio/chatify/tree/v1.5.6"
             },
             "install-path": "../munafio/chatify"
         },

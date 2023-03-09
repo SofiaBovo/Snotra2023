@@ -1483,10 +1483,13 @@ class InformacionAcademicaController extends Controller
             }
             else{
             $nombrescali = preg_replace('/[\[\]\.\;\""]+/', '', $nombrescalificaciones);
-            $contadorcalif=count($nombrescalificaciones)-1;
+
+            $contadorcalif=count($nombrescali)-1;
+            return $contadorcalif;
             for($p=0;$p<=$contadorcalif;$p++){
-            $ordencalifi[]=calificacioncualitativa::where('codigo',$nombrescalificaciones[$p])->pluck('orden');
+            $ordencalifi[]=calificacioncualitativa::where('codigo',$nombrescali[$p])->pluck('orden');
             }
+            return $ordencalifi;
             $ordencalifi = preg_replace('/[\[\]\.\;\""]+/', '', $ordencalifi);
             rsort($ordencalifi);
             for($p=0;$p<=$contadorcalif;$p++){

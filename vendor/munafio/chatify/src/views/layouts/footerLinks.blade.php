@@ -20,8 +20,4 @@
     const getAllowedExtensions = [...allowedImages, ...allowedFiles];
     const getMaxUploadSize = {{ Chatify::getMaxUploadSize() }};
 </script>
-<script>
-  // Messenger global variable - 0 by default
-  messenger = "{{ @$id }}";
-</script>
 <script src="{{ asset('js/chatify/code.js') }}"></script>

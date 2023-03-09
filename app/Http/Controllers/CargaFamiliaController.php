@@ -109,6 +109,7 @@ class CargaFamiliaController extends Controller
         $user->role='familia';
         $user->idpersona=$idfamilia;
         $user->colegio_id=$idcolegio;
+        $user->confirmed=1;
         $user->save();
         $password=Crypt::decrypt($user->passwordenc);
         $user->notify(new notifcreacion($user->email,$password));

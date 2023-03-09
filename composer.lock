@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "e4b4e2a408d0930d9f6ab9a49e75f280",
+    "content-hash": "fd0406924016c9cecfefc1717c61ff4f",
     "packages": [
         {
             "name": "apility/laravel-fcm",
@@ -2169,16 +2169,16 @@
         },
         {
             "name": "munafio/chatify",
-            "version": "v1.5.1",
+            "version": "v1.5.6",
             "source": {
                 "type": "git",
                 "url": "https://github.com/munafio/chatify.git",
-                "reference": "164ee93db1862dfabcc8c08d9a4069f4f4cf2164"
+                "reference": "f5197f8e89d7d1315515d80ac2a867b5e88fabf0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/munafio/chatify/zipball/164ee93db1862dfabcc8c08d9a4069f4f4cf2164",
-                "reference": "164ee93db1862dfabcc8c08d9a4069f4f4cf2164",
+                "url": "https://api.github.com/repos/munafio/chatify/zipball/f5197f8e89d7d1315515d80ac2a867b5e88fabf0",
+                "reference": "f5197f8e89d7d1315515d80ac2a867b5e88fabf0",
                 "shasum": ""
             },
             "require": {
@@ -2225,9 +2225,9 @@
             ],
             "support": {
                 "issues": "https://github.com/munafio/chatify/issues",
-                "source": "https://github.com/munafio/chatify/tree/v1.5.1"
+                "source": "https://github.com/munafio/chatify/tree/v1.5.6"
             },
-            "time": "2022-06-09T08:10:11+00:00"
+            "time": "2023-01-26T20:31:56+00:00"
         },
         {
             "name": "nesbot/carbon",

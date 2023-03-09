@@ -10,7 +10,7 @@
             </td>
             {{-- center side --}}
             <td>
-                <p data-id="{{ Auth::user()->id }}" data-type="user">Mis notas</p>
+                <p data-id="{{ Auth::user()->id }}" data-type="user">Mis notas
             </td>
         </tr>
     </table>
@@ -26,16 +26,31 @@
                 <span class="activeStatus"></span>
             @endif
         <div class="avatar av-m"
-        style="background-image: url('{{ $user->avatar }}');">
+        style="background-image: url('{{ asset('/storage/public/'.config('chatify.user_avatar.folder').'/'.$user->avatar) }}');">
         </div>
         </td>
         {{-- center side --}}
         <td>
         <p data-id="{{ $user->id }}" data-type="user">
-            {{ strlen($user->name) > 20 ? trim(substr($user->name,0,20)).'..' : $user->name }}
-            <br>
-            {{ $lastMessage->created_at->diffForHumans() }}</p>
+            {{ strlen($user->name) > 12 ? trim(substr($user->name,0,12)).'..' : $user->name }}
+            <span>{{ $lastMessage->created_at->diffForHumans() }}</span></p>
         <span>
+            {{-- Last Message user indicator --}}
+            {!!
+                $lastMessage->from_id == Auth::user()->id
+                ? '<span class="lastMessageIndicator">Vos :</span>'
+                : ''
+            !!}
+            {{-- Last message body --}}
+            @if($lastMessage->attachment == null)
+            {!!
+                strlen($lastMessage->body) > 30
+                ? trim(substr($lastMessage->body, 0, 30)).'..'
+                : $lastMessage->body
+            !!}
+            @else
+            <span class="fas fa-file"></span> Adjunto
+            @endif
         </span>
         {{-- New messages counter --}}
             {!! $unseenCounter > 0 ? "<b>".$unseenCounter."</b>" : '' !!}
@@ -52,13 +67,13 @@
         {{-- Avatar side --}}
         <td>
         <div class="avatar av-m"
-        style="background-image: url('{{ $user->avatar }}');">
+        style="background-image: url('{{ asset('/storage/public/'.config('chatify.user_avatar.folder').'/'.$user->avatar) }}');">
         </div>
         </td>
         {{-- center side --}}
         <td>
             <p data-id="{{ $user->id }}" data-type="user">
-            {{ strlen($user->name) > 20 ? trim(substr($user->name,0,20)).'..' : $user->name }}
+            {{ strlen($user->name) > 200 ? trim(substr($user->name,0,20)).'..' : $user->name }}
         </td>
 
     </tr>

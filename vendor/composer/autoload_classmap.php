@@ -39,7 +39,6 @@ return array(
     'App\\Http\\Controllers\\NotasController' => $baseDir . '/app/Http/Controllers/NotasController.php',
     'App\\Http\\Controllers\\PaseGradoController' => $baseDir . '/app/Http/Controllers/PaseGradoController.php',
     'App\\Http\\Controllers\\vendor\\Chatify\\Api\\MessagesController' => $baseDir . '/app/Http/Controllers/vendor/Chatify/Api/MessagesController.php',
-    'App\\Http\\Controllers\\vendor\\Chatify\\MessagesController' => $baseDir . '/app/Http/Controllers/vendor/Chatify/MessagesController.php',
     'App\\Http\\Kernel' => $baseDir . '/app/Http/Kernel.php',
     'App\\Http\\Livewire\\ChatForm' => $baseDir . '/app/Http/Livewire/ChatForm.php',
     'App\\Http\\Livewire\\ChatList' => $baseDir . '/app/Http/Livewire/ChatList.php',

@@ -176,16 +176,20 @@
                   }
                   $idfamilia=Auth::user()->idpersona;
                   $nombrealumno=Alumno::where('familias_id',$idfamilia)->pluck('nombrecompleto');
+                  if(sizeof($nombrealumno)==0){
+                   
+                  }
+                  else{
                   $contadoralumnos=count($nombrealumno)-1;
                   for($i=0;$i<=$contadoralumnos;$i++){
                   $nuevajustificacion[]=Asistencia::where('nombrealumno',$nombrealumno[$i])->where('estado','Ausente')->where('justificacion',0)->get();
                   }
                   $nuevajustif = preg_replace('/[\[\]\.\;\" "]+/', '', $nuevajustificacion);
+                  }
                   ?>
-                 
                   <?php 
                   if(empty($nuevajustif)){?>
-                  <span>No hay justificaciones para gestionar</span>
+                  <span class="dropdown-header">No hay justificaciones para gestionar.</span>
                   <?php
                   }
                   else{

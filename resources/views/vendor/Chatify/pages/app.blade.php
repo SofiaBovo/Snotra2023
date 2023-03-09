@@ -1,31 +1,41 @@
 @extends('layouts.main' , ['activePage' => 'mensajes', 'titlePage => Central de mensajes'])
+@include('Chatify::layouts.headLinks')
 @section ('content')
 <div class="content">
+    <?php
+    $detect = new Mobile_Detect;
+if ($detect->isMobile() or $detect->isTablet()) {
+}
+else{?>
 <div class="card" style="margin-top:-1%; background-color: #DEE3F4;">
 <div class="card-header card-header-info">
 <h4 class="card-title "> Central de mensajes</h4>   
 </div>
+<?php 
+}
+?>
 <div class="card-body">
               <div class="modal fade bd-example-modal-lg" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
               <div class="modal-dialog modal-lg" style="width:320px;">
               <div class="modal-content">
-              <div class="modal-header"><h5 class="modal-title" id="exampleModalLabel"><strong>Configuración del perfil</strong></h5>
-<button type="button" class="close" data-dismiss="modal" title="Cerrar">&times;</button>
+              <div class="text-right" style="margin-right:10px;margin-top: 10px;">
+              <button type="button" class="close" data-dismiss="modal" title="Cerrar">&times;</button>
               </div>
               <div class="modal-body">
+                <h5 class="text-center" id="exampleModalLabel" style="color:#606679;"><span><strong>Configuración de perfil</strong></span></h5>
                <form id="update-settings" action="{{ route('avatar.update') }}" enctype="multipart/form-data" method="POST">
                   @csrf
-                  
                   <div class="app-modal-body">
                       {{-- Udate profile avatar --}}
                       <div class="avatar av-l upload-avatar-preview"
-                      style="background-image: url('{{ asset('/storage/public/'.config('chatify.user_avatar.folder').'/'.Auth::user()->avatar) }}');"
+                       style="background-image: url('{{ asset('/storage/public/'.config('chatify.user_avatar.folder').'/'.Auth::user()->avatar) }}');"
                       ></div>
+
                       <div class="text-center">
                       <p class="upload-avatar-details"></p>
                       <label class="app-btn a-btn-primary update" style="background-color:{{$messengerColor}}">
                           Subir nueva
-                          <input class="upload-avatar" accept="image/*" name="avatar" type="file" style="display: none" />
+                          <input class="upload-avatar chatify-d-none" accept="image/*" name="avatar" type="file" />
                       </label>
                       {{-- change messenger color  --}}
                       <p class="divider"></p>
@@ -49,7 +59,6 @@
               </div>
               </div>
               </div>
-@include('Chatify::layouts.headLinks')
 <div class="messenger" style="border: 5px solid #4E5361; border-radius: 10px;">
     {{-- ----------------------Users/Groups lists side---------------------- --}}
     <div class="messenger-listView">
@@ -59,14 +68,27 @@
                 <a href="#"><i class="fas fa-inbox"></i> <span class="messenger-headTitle">Mensajes</span> </a>
                 {{-- header buttons --}}
                 <nav class="m-header-right">
-
+                    <?php
+                    $rolusuario= Auth::user()->role;
+                    if($rolusuario=='directivo'){?>
+                    <a href="/directivo"><i class="fas fa-home"></i></a>
+                    <?php
+                    }
+                    if($rolusuario=='docente'){?>
+                    <a href="/docente"><i class="fas fa-home"></i></a>
+                    <?php
+                    }
+                    if($rolusuario=='familia'){?>
+                    <a href="/familia"><i class="fas fa-home"></i></a>
+                    <?php
+                    }
+                    ?>
                     <a data-toggle="modal" data-target="#myModal" title="configuración"><i class="fas fa-cog settings-btn"></i></a>
-
                     <a href="#" class="listView-x"><i class="fas fa-times"></i></a>
                 </nav>
             </nav>
             {{-- Search input --}}
-            <input type="text" class="messenger-search" placeholder="Buscar" />
+            <input type="text" class="messenger-search" placeholder="Buscar contacto" />
             {{-- Tabs --}}
             <div class="messenger-listView-tabs">
                 <a href="#" @if($type == 'user') class="active-tab" @endif data-view="users">
@@ -110,7 +132,7 @@
                 {{-- header back button, avatar and user name --}}
                 <div class="chatify-d-flex chatify-justify-content-between chatify-align-items-center">
                     <a href="#" class="show-listView"><i class="fas fa-arrow-left"></i></a>
-                    <div class="avatar av-s header-avatar" style="margin: 0px 10px; margin-top: -5px; margin-bottom: -5px;">
+                    <div class="avatar av-s header-avatar" id="mostrartexto" style="margin: 0px 10px; margin-top: -5px; margin-bottom:-5px;">
                     </div>
                     <a href="#" class="user-name">{{ config('chatify.name') }}</a>
                 </div>

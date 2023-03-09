@@ -25,22 +25,24 @@ public function index()
     }
     $idfamilia=Auth::user()->idpersona;
     $idalumno=Alumno::where('familias_id',$idfamilia)->pluck('id');
+    if(sizeof($idalumno)==0)
+        {
+            return view('informacionalumnos.index',compact('idalumno'));
+
+        }
+    else{
     $contadoralumnos=count($idalumno)-1;
     for($i=0;$i<=$contadoralumnos;$i++){
     $informes[]=Informes::where('id_alumno',$idalumno[$i])->get();
     $informesfinales[]=NotaFinal::where('id_alumno',$idalumno[$i])->get();
     }
-    $infocolegio=Colegio::where('id',$idcolegio)->pluck("espacioscurriculares");
-    $infocolegio = preg_replace('/[\[\]\.\;\" "]+/', '', $infocolegio);
-    $infocolegio = str_replace('\\','',$infocolegio); 
-    $infocolegio=explode(',',$infocolegio);
-    $contadorespacios=count($infocolegio)-1;
-    for ($i=0; $i <=$contadorespacios ; $i++) { 
-    $nombreespacio[]=espacioscurriculares::where('id',$infocolegio[$i])->pluck("nombre");
+    foreach($informesfinales[0] as $infor)
+    {
+    $nombreespacio[]="$infor->espacio";
     }
-    $nombreespacio = preg_replace('/[\[\]\.\;\""]+/', '', $nombreespacio);
     $informacionperiodo=Colegio::where('id',$idcolegio)->pluck("periodo");
     $informacionperiodo = preg_replace('/[\[\]\.\;\" "]+/', '', $informacionperiodo);
     return view('informacionalumnos.index',compact('informes','idalumno','nombreespacio','informacionperiodo','informesfinales'));
     }
+}
 }

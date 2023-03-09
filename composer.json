@@ -16,7 +16,7 @@
         "laravel/ui": "^3.3",
         "livewire/livewire": "^2.7",
         "mobiledetect/mobiledetectlib": "^2.8",
-        "munafio/chatify": "^1.2",
+        "munafio/chatify": "^1.5",
         "pusher/pusher-php-server": "^7.0",
         "silviolleite/laravelpwa": "^2.0",
         "twilio/sdk": "^6.30"

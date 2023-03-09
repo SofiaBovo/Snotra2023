@@ -1,5 +1,5 @@
 {{-- user info and avatar --}}
-<div class="avatar av-l avatar-header"></div>
+<div class="avatar av-l chatify-d-flex"></div>
 <p class="info-name" style="color:#606679;">{{ config('chatify.name') }}</p>
 <div class="messenger-infoView-btns">
     <a href="#" class="danger delete-conversation"><i class="fas fa-trash-alt"></i> Eliminar conversación</a>

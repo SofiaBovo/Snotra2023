@@ -628,7 +628,6 @@ class ComposerStaticInit9f8a9f5a3647fc41795aecc4fc9c3ca5
         'App\\Http\\Controllers\\NotasController' => __DIR__ . '/../..' . '/app/Http/Controllers/NotasController.php',
         'App\\Http\\Controllers\\PaseGradoController' => __DIR__ . '/../..' . '/app/Http/Controllers/PaseGradoController.php',
         'App\\Http\\Controllers\\vendor\\Chatify\\Api\\MessagesController' => __DIR__ . '/../..' . '/app/Http/Controllers/vendor/Chatify/Api/MessagesController.php',
-        'App\\Http\\Controllers\\vendor\\Chatify\\MessagesController' => __DIR__ . '/../..' . '/app/Http/Controllers/vendor/Chatify/MessagesController.php',
         'App\\Http\\Kernel' => __DIR__ . '/../..' . '/app/Http/Kernel.php',
         'App\\Http\\Livewire\\ChatForm' => __DIR__ . '/../..' . '/app/Http/Livewire/ChatForm.php',
         'App\\Http\\Livewire\\ChatList' => __DIR__ . '/../..' . '/app/Http/Livewire/ChatList.php',
