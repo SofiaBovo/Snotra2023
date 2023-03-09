@@ -5,7 +5,7 @@
         'type' => 'project',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
-        'reference' => '26eeb3b80b373c8092d98aeade91b8d715d54ea1',
+        'reference' => 'ca1146e7dc64c9065d556291b4d50778988fe1f1',
         'name' => 'laravel/laravel',
         'dev' => true,
     ),
@@ -442,7 +442,7 @@
             'type' => 'project',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),
-            'reference' => '26eeb3b80b373c8092d98aeade91b8d715d54ea1',
+            'reference' => 'ca1146e7dc64c9065d556291b4d50778988fe1f1',
             'dev_requirement' => false,
         ),
         'laravel/sail' => array(
@@ -560,12 +560,12 @@
             ),
         ),
         'munafio/chatify' => array(
-            'pretty_version' => 'v1.5.1',
-            'version' => '1.5.1.0',
+            'pretty_version' => 'v1.5.6',
+            'version' => '1.5.6.0',
             'type' => 'library',
             'install_path' => __DIR__ . '/../munafio/chatify',
             'aliases' => array(),
-            'reference' => '164ee93db1862dfabcc8c08d9a4069f4f4cf2164',
+            'reference' => 'f5197f8e89d7d1315515d80ac2a867b5e88fabf0',
             'dev_requirement' => false,
         ),
         'myclabs/deep-copy' => array(

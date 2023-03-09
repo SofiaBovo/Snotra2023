@@ -374,7 +374,7 @@ function IDinfo(id, type) {
           .css("background-image", 'url("' + data.user_avatar + '")');
         $(".header-avatar").css(
           "background-image",
-          'url("' + data.user_avatar + '")'
+          'url("'+data.user_avatar+'")'
         );
         // Show shared and actions
         $(".messenger-infoView-btns .delete-conversation").show();
@@ -1387,7 +1387,7 @@ $(document).ready(function () {
   $("body").on("click", ".chat-image", function () {
     let src = $(this).css("background-image").split(/"/)[1];
     $("#imageModalBox").show();
-    $("#imageModalBoxSrc").attr("src", src);
+    $("#imageModalBoxSrc").attr("src", imageModalBox);
   });
   $(".imageModal-close").on("click", function () {
     $("#imageModalBox").hide();

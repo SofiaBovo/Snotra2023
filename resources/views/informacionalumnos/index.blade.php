@@ -6,6 +6,18 @@
   <div class="col-md-12">
   <div class="row">
   <div class="col-md-12">
+  @if(sizeof($idalumno)==0)
+    <div class="card">
+      <div class="card-header card-header-info">
+      <h4 class="card-title">Información académica</h4>   
+      </div>
+       <div class="card-body">
+        <div class="col-md-12 text-center">
+        <h4><span class="badge badge-warning">Aún no fueron creados los alumnos asociados a este usuario.</span></h4>
+        </div>
+      </div>
+    </div>
+  @else
   <?php
   $contadorinformes=count($informes)-1;
   $contadoralumnos=count($idalumno)-1;
@@ -55,181 +67,52 @@
                       ?>
                     <th>Valoración final</th>
                   </thead>
-                  <?php
-                  $contadorespacios=count($nombreespacio)-1;
-                  if($informacionperiodo=='Bimestre'){
-                  $cont=($contadorespacios+1)*4;
-                  }
-                  elseif($informacionperiodo=='Trimestre'){
-                  $cont=($contadorespacios+1)*3;
-                  }
-                  else{
-                  $cont=($contadorespacios+1)*2;
-                  }
+                  <tbody>
+                    <?php
+                    $contadorespacios=count($nombreespacio)-1;
+                    if($informacionperiodo=='Bimestre'){
+                    $cont=($contadorespacios+1)*4;
+                    }
+                    elseif($informacionperiodo=='Trimestre'){
+                    $cont=($contadorespacios+1)*3;
+                    }
+                    else{
+                    $cont=($contadorespacios+1)*2;
+                    }
+                    for($m=0;$m<=$contadorespacios;$m++){
                     ?>
-                  <?php
-                  $arregloB=['null','null','null','null'];
-                  $arregloT=['null','null','null'];
-                  $arregloC=['null','null'];  
-                  for($m=0;$m<=$contadorespacios;$m++){
-                    ?>
+                    <tr>
                     <td class="v-align-middle">{{$nombreespacio[$m]}}</td>
                     <?php
-                  for($i=0;$i<=$contadorinformes;$i++){  
-                  for($k=0;$k<$cont;$k++){
-                  $infor=$informes[$i];
-                  if($infor[$k]->espacio==$nombreespacio[$m] and $infor[$k]->id_alumno==$idalumno[$j]){
-                    if($informacionperiodo=='Bimestre'){
-                      if($infor[$k]->periodo=='Primera Etapa'){
-                      $arregloB[0]=$infor[$k]->nota;
-                      }
-                      elseif($infor[$k]->periodo=='Segunda Etapa'){
-                      $arregloB[1]=$infor[$k]->nota; 
-                      }
-                      elseif($infor[$k]->periodo=='Tercera Etapa'){
-                      $arregloB[2]=$infor[$k]->nota; 
-                      }
-                      else{
-                      $arregloB[3]=$infor[$k]->nota; 
-                      }
-                      }
-                      if($informacionperiodo=='Trimestre'){
-                      if($infor[$k]->periodo=='Primera Etapa'){
-                      $arregloT[0]=$infor[$k]->nota;
-                      }
-                      elseif($infor[$k]->periodo=='Segunda Etapa'){
-                      $arregloT[1]=$infor[$k]->nota; 
-                      }
-                      else{
-                      $arregloT[2]=$infor[$k]->nota; 
-                      }
-                      }
-                      if($informacionperiodo=='Cuatrimestre'){
-                      if($infor[$k]->periodo=='Primera Etapa'){
-                      $arregloC[0]=$infor[$k]->nota;
-                      }
-                      elseif($infor[$k]->periodo=='Segunda Etapa'){
-                      $arregloC[1]=$infor[$k]->nota; 
-                      }
-                      }
-                      if($informacionperiodo=='Semestre'){
-                      if($infor[$k]->periodo=='Primera Etapa'){
-                      $arregloC[0]=$infor[$k]->nota;
-                      }
-                      else{
-                      $arregloC[1]=$infor[$k]->nota; 
-                      }
-                      }
-                      }
-                      }
-                    }
-                    if($informacionperiodo=='Bimestre'){
-                      $contador=count($arregloB)-1; 
-                      for($u=0;$u<=$contador;$u++){
-                        if($arregloB[$u]=='null'){?>
-                          <td class="v-align-middle">-</td>
-                        <?php 
-                        }
-                        else{?>
-                          <td class="v-align-middle">{{$arregloB[$u]}}</td>
-                        <?php
-                        }
-                      }
-                    }
-                    if($informacionperiodo=='Trimestre'){
-                      $contador=count($arregloT)-1; 
-                      for($u=0;$u<=$contador;$u++){
-                        if($arregloT[$u]=='null'){?>
-                          <td class="v-align-middle">-</td>
-                        <?php 
-                        }
-                        else{?>
-                          <td class="v-align-middle">{{$arregloT[$u]}}</td>
-                        <?php
-                        }
-                      }
-                    }
-                    if($informacionperiodo=='Cuatrimestre'){
-                      $contador=count($arregloC)-1; 
-                      for($u=0;$u<=$contador;$u++){
-                        if($arregloC[$u]=='null'){?>
-                          <td class="v-align-middle">-</td>
-                        <?php 
-                        }
-                        else{?>
-                          <td class="v-align-middle">{{$arregloC[$u]}}</td>
-                        <?php
-                        }
-                      }
-                    }
-                    if($informacionperiodo=='Semestre'){
-                      $contador=count($arregloC)-1; 
-                      for($u=0;$u<=$contador;$u++){
-                        if($arregloC[$u]=='null'){?>
-                          <td class="v-align-middle">-</td>
-                        <?php 
-                        }
-                        else{?>
-                          <td class="v-align-middle">{{$arregloC[$u]}}</td>
-                        <?php
-                        }
-                      }
-                    }
-                    for($p=0;$p<=$contadornotasfinales;$p++){
                     for($k=0;$k<$cont;$k++){
-                    $inform=$informesfinales[$p];
-                    if($inform[$k]->espacio==$nombreespacio[$m] and $inform[$k]->id_alumno==$idalumno[$j]){
-                      if($inform[$k]->nota==NULL){?>
-                      <td class="v-align-middle">-</td>
-                      <?php
-                      }
-                      else{
-                      if($inform[$k]->nota=='E' or $inform[$k]->nota=='SB' or $inform[$k]->nota==10){
-                      ?>
-                      <td class="v-align-middle"><mark style="border-radius: 10px;background-color:#CBFC99;">{{$inform[$k]->nota}}</mark></td>
-                      <?php 
-                      }
-                      if($inform[$k]->nota=='MB' or $inform[$k]->nota==8 or $inform[$k]->nota==9){
-                      ?>
-                      <td class="v-align-middle"><mark style="border-radius: 10px;background-color:#FBFC99 ;">{{$inform[$k]->nota}}</mark></td>
-                      <?php 
-                      }
-                      if($inform[$k]->nota=='B' or $inform[$k]->nota=='R' or $inform[$k]->nota==7 or $inform[$k]->nota==6){
-                      ?>
-                      <td class="v-align-middle"><mark style="border-radius: 10px;background-color:#FCD799 ;">{{$inform[$k]->nota}}</mark></td>
-                      <?php 
-                      }
-                      if($inform[$k]->nota=='S' or $inform[$k]->nota=='I' or $inform[$k]->nota==4 or $inform[$k]->nota==5){
-                      ?>
-                      <td class="v-align-middle"><mark style="border-radius: 10px;background-color:#FCBC99 ;">{{$inform[$k]->nota}}</mark></td>
-                      <?php 
-                      }
-                      if($inform[$k]->nota=='NS' or $inform[$k]->nota==1 or $inform[$k]->nota==2 or $inform[$k]->nota==3){
-                      ?>
-                      <td class="v-align-middle"><mark style="border-radius: 10px;background-color:#FCA399 ;">{{$inform[$k]->nota}}</mark></td>
-                      <?php 
-                      }
-                      }
-                      
+                    $infor=$informes[$j];
+                    if($infor[$k]->id_alumno==$idalumno[$j] and $infor[$k]->espacio==$nombreespacio[$m]){?>
+                    <td class="v-align-middle">{{$infor[$k]->nota}}</td>
+                    <?php
                     }
-                  }
-                  }
-
+                    }
+                    $inform=$informesfinales[$j];
+                    if($inform[$m]->id_alumno==$idalumno[$j] and $inform[$m]->espacio==$nombreespacio[$m]){?>
+                    <td class="v-align-middle">{{$inform[$m]->nota}}</td>
+                    <?php
+                    }
                     ?>
-                    </tbody>
-                    <?php 
-                  }
-                  ?>
+                    </tr>
+                    <?php
+                    }
+                    ?>
+                  
+                  </tbody>
                   
                 </table>
         </div>
       </div>
-  </div> 
-  <?php
-  }
-  ?>            
-</div>
-           
+  </div>
+<?php
+                    }
+                    ?>
+   @endif
+                  </div>        
           </div>
         </div>
         

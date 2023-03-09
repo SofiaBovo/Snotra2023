@@ -7,6 +7,18 @@
       <div class="col-md-12">
         <div class="row">
           <div class="col-md-12">
+             @if($nombrealumno->isEmpty())
+    <div class="card">
+      <div class="card-header card-header-info">
+      <h4 class="card-title">Asistencias</h4>   
+      </div>
+       <div class="card-body">
+        <div class="col-md-12 text-center">
+        <h4><span class="badge badge-warning">Aún no fueron creados los alumnos asociados a este usuario.</span></h4>
+        </div>
+      </div>
+    </div>
+  @else
             <div class="card">
               <div class="card-header card-header-info">
                 <h4 class="card-title ">Justificación de inasistencias</h4>
@@ -268,6 +280,7 @@
                 @endif
             </div>
           </div>
+          @endif
         </div>
       </div>
      </div>

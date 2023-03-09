@@ -30,23 +30,12 @@ class MessagesController extends Controller
      */
     public function pusherAuth(Request $request)
     {
-        // Auth data
-        $authData = json_encode([
-            'user_id' => Auth::user()->id,
-            'user_info' => [
-                'name' => Auth::user()->name
-            ]
-        ]);
-        // check if user authorized
-        if (Auth::check()) {
-            return Chatify::pusherAuth(
-                $request['channel_name'],
-                $request['socket_id'],
-                $authData
-            );
-        }
-        // if not authorized
-        return response()->json(['message'=>'Unauthorized'], 401);
+        return Chatify::pusherAuth(
+            $request->user(),
+            Auth::user(),
+            $request['channel_name'],
+            $request['socket_id']
+        );
     }
 
     /**
@@ -107,11 +96,11 @@ class MessagesController extends Controller
      */
     public function download($fileName)
     {
-        if (Chatify::storage()->exists(config('chatify.attachments.folder') . '/' . $fileName)) {
-            return Chatify::storage()->download(config('chatify.attachments.folder') . '/' . $fileName);
-        } else {
-            return abort(404, "Lo sentimos, el archivo no existe en nuestro servidor o puede haber sido eliminado.");
+        $filePath = config('chatify.attachments.folder') . '/' . $fileName;
+        if (Chatify::storage()->exists($filePath)) {
+            return Chatify::storage()->download($filePath);
         }
+        return abort(404, "Lo sentimos, el archivo no existe en nuestro servidor o puede haber sido eliminado.");
     }
 
     /**
@@ -140,19 +129,19 @@ class MessagesController extends Controller
             $file = $request->file('file');
             // check file size
             if ($file->getSize() < Chatify::getMaxUploadSize()) {
-                if (in_array(strtolower($file->getClientOriginalExtension()), $allowed)) {
+                if (in_array(strtolower($file->extension()), $allowed)) {
                     // get attachment name
                     $attachment_title = $file->getClientOriginalName();
                     // upload attachment and store the new name
-                    $attachment = Str::uuid() . "." . $file->getClientOriginalExtension();
+                    $attachment = Str::uuid() . "." . $file->extension();
                     $file->storeAs(config('chatify.attachments.folder'), $attachment, config('chatify.storage_disk_name'));
                 } else {
                     $error->status = 1;
-                    $error->message = "Extensión de archivo no permitida";
+                    $error->message = "Extensión de archivo no permitida.";
                 }
             } else {
                 $error->status = 1;
-                $error->message = "El tamaño del archivo que intenta cargar es demasiado grande";
+                $error->message = "El tamaño del archivo que intenta cargar es demasiado grande.";
             }
         }
 
@@ -175,7 +164,7 @@ class MessagesController extends Controller
             $messageData = Chatify::fetchMessage($messageID);
 
             // send to user using pusher
-            Chatify::push('private-chatify', 'messaging', [
+            Chatify::push("private-chatify.".$request['id'], 'messaging', [
                 'from_id' => Auth::user()->id,
                 'to_id' => $request['id'],
                 'message' => Chatify::messageCard($messageData, 'default')
@@ -212,7 +201,7 @@ class MessagesController extends Controller
 
         // if there is no messages yet.
         if ($totalMessages < 1) {
-            $response['messages'] ='<p class="message-hint center-el"><span> Di hola y empieza a enviar mensajes</span></p>';
+            $response['messages'] ='<p class="message-hint center-el"><span>Di hola y empieza a enviar mensajes</span></p>';
             return Response::json($response);
         }
         if (count($messages->items()) < 1) {
@@ -276,7 +265,7 @@ class MessagesController extends Controller
                 $contacts .= Chatify::getContactItem($user);
             }
         } else {
-            $contacts = '<p class="message-hint center-el"><span>Tu lista de contactos está vacía.</span></p>';
+            $contacts = '<p class="message-hint center-el"><span>Su lista de contactos está vacía</span></p>';
         }
 
         return Response::json([
@@ -298,7 +287,7 @@ class MessagesController extends Controller
         $user = User::where('id', $request['user_id'])->first();
         if(!$user){
             return Response::json([
-                'message' => 'Usuario no encontrado',
+                'message' => 'Usuario no encontrado.',
             ], 401);
         }
         $contactItem = Chatify::getContactItem($user);
@@ -317,20 +306,14 @@ class MessagesController extends Controller
      */
     public function favorite(Request $request)
     {
+        $userId = $request['user_id'];
         // check action [star/unstar]
-        if (Chatify::inFavorite($request['user_id'])) {
-            // UnStar
-            Chatify::makeInFavorite($request['user_id'], 0);
-            $status = 0;
-        } else {
-            // Star
-            Chatify::makeInFavorite($request['user_id'], 1);
-            $status = 1;
-        }
+        $favoriteStatus = Chatify::inFavorite($userId) ? 0 : 1;
+        Chatify::makeInFavorite($userId, $favoriteStatus);
 
         // send the response
         return Response::json([
-            'status' => @$status,
+            'status' => @$favoriteStatus,
         ], 200);
     }
 
@@ -372,12 +355,13 @@ class MessagesController extends Controller
         $input = trim(filter_var($request['input']));
         $records = User::where('id','!=',Auth::user()->id)
                     ->where('name', 'LIKE', "%{$input}%")
+                    ->where('colegio_id','LIKE',Auth::user()->colegio_id)
                     ->paginate($request->per_page ?? $this->perPage);
         foreach ($records->items() as $record) {
             $getRecords .= view('Chatify::layouts.listItem', [
                 'get' => 'search_item',
                 'type' => 'user',
-                'user' => Chatify::getUserWithAvatar($record),
+                'user' => $record,
             ])->render();
         }
         if($records->total() < 1){
@@ -406,12 +390,12 @@ class MessagesController extends Controller
         for ($i = 0; $i < count($shared); $i++) {
             $sharedPhotos .= view('Chatify::layouts.listItem', [
                 'get' => 'sharedPhoto',
-                'image' => Chatify::getAttachmentUrl($shared[$i]),
+                'image' => asset('storage/public/attachments/' . $shared[$i]),
             ])->render();
         }
         // send the response
         return Response::json([
-            'shared' => count($shared) > 0 ? $sharedPhotos : '<p><span>No hay nada compartido todavía.</span></p>',
+            'shared' => count($shared) > 0 ? $sharedPhotos : '<p class="message-hint"><span>No hay nada compartido todavía</span></p>',
         ], 200);
     }
 
@@ -475,7 +459,7 @@ class MessagesController extends Controller
             $file = $request->file('avatar');
             // check file size
             if ($file->getSize() < Chatify::getMaxUploadSize()) {
-                if (in_array(strtolower($file->getClientOriginalExtension()), $allowed_images)) {
+                if (in_array(strtolower($file->extension()), $allowed_images)) {
                     // delete the older one
                     if (Auth::user()->avatar != config('chatify.user_avatar.default')) {
                         $avatar = Auth::user()->avatar;
@@ -484,16 +468,16 @@ class MessagesController extends Controller
                         }
                     }
                     // upload
-                    $avatar = Str::uuid() . "." . $file->getClientOriginalExtension();
+                    $avatar = Str::uuid() . "." . $file->extension();
                     $update = User::where('id', Auth::user()->id)->update(['avatar' => $avatar]);
-                    $file->storeAs(config('chatify.user_avatar.folder'), $avatar, config('chatify.storage_disk_name'));
+                    $file->storeAs("public/" . config('chatify.user_avatar.folder'), $avatar);
                     $success = $update ? 1 : 0;
                 } else {
                     $msg = "Extensión de archivo no permitida";
                     $error = 1;
                 }
             } else {
-                $msg = "El tamaño del archivo que intenta cargar es demasiado grande";
+                $msg = "El tamaño del archivo que intenta cargar es demasiado grande.";
                 $error = 1;
             }
         }
@@ -514,12 +498,11 @@ class MessagesController extends Controller
      */
     public function setActiveStatus(Request $request)
     {
-        $update = $request['status'] > 0
-            ? User::where('id', $request['user_id'])->update(['active_status' => 1])
-            : User::where('id', $request['user_id'])->update(['active_status' => 0]);
-        // send the response
+        $userId = $request['user_id'];
+        $activeStatus = $request['status'] > 0 ? 1 : 0;
+        $status = User::where('id', $userId)->update(['active_status' => $activeStatus]);
         return Response::json([
-            'status' => $update,
+            'status' => $status,
         ], 200);
     }
 }

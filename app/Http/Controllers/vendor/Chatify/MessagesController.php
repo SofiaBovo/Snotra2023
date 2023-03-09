@@ -16,8 +16,6 @@ use Illuminate\Support\Str;
 
 class MessagesController extends Controller
 {
-     protected $perPage = 30;
-    protected $messengerFallbackColor = '#2180f3';
     /**
      * Authinticate the connection for pusher
      *
@@ -431,7 +429,9 @@ Aún no se ha compartido nada.</span></p>',
 
         // If messenger color selected
         if ($request['messengerColor']) {
-            $messenger_color = trim(filter_var($request['messengerColor']));
+
+            $messenger_color = explode('-', trim(filter_var($request['messengerColor'], FILTER_SANITIZE_STRING)));
+            $messenger_color = Chatify::getMessengerColors()[$messenger_color[1]];
             User::where('id', Auth::user()->id)
                 ->update(['messenger_color' => $messenger_color]);
         }

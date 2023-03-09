@@ -2,6 +2,31 @@
 
 All notable changes to this project will be documented in this file.
 
+## v1.5.6 (2023-01-26)
+
+### Fixed
+
+- Keyboard overlaping on input issue on mobile #202.
+- Security issue and code enhancements #240.
+
+## v1.5.5 (2023-01-21)
+
+### Fixed
+
+- message delete event channel #238.
+
+## v1.5.4 (2022-12-05)
+
+### Fixed
+
+- Channels auth secutiy issue #29
+
+## v1.5.3 (2022-12-04)
+
+### Fixed
+
+- Channels Secutiy issue #29
+
 ## v1.5.2 (2022-07-08)
 
 ### Fixed

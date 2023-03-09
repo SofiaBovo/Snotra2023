@@ -51,11 +51,9 @@
          $files_id = preg_replace('/[\[\]\.\;\""]+/', '', $files_id);
          $files=App\Models\File::where('id',$files_id)->pluck('file');
          $files=preg_replace('/[\[\]\\;\""]+/', '', $files);
-         $rutaimagen=asset('file').'/'.$files;
-         $url=Request::url();
         ?>
         <br>
-        <img src="{{$rutaimagen}}" width="130px" height="130px"/>
+        <img src="./file/{{$files}}" width="130px" height="130px"/>
 		</td>
 		<td style="width:83%;text-align: center;">
 			<p style="font-size: 22px;">

@@ -134,7 +134,7 @@
                         <div>
                         <div style="display: inline-block;">
                         <form>
-                        <button formaction= "{{route('generarlibreta',$nombrecompleto)}}" class="btn btn-success" title="Descargar informe">
+                        <button formaction= "{{route('informefinal',$nombrecompleto)}}" class="btn btn-success" title="Descargar informe">
                         <i class="bi bi-download"></i>
                         </button>
                           <div style="display: none;">

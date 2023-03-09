@@ -63,6 +63,11 @@ class AsistenciaFamiliaController extends Controller
        'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre');
     $idfamilia=Auth::user()->idpersona;
     $nombrealumno=Alumno::where('familias_id',$idfamilia)->pluck('nombrecompleto');
+    if(sizeof($nombrealumno)==0)
+    {
+    return view('AsistenciaFamilia.buscador',compact('nombrealumno'));
+    }
+    else{  
     $contadoralumnos=count($nombrealumno)-1;
     for($i=0;$i<=$contadoralumnos;$i++){
     $infoasistencias[]=Asistencia::where('nombrealumno',$nombrealumno[$i])->where('estado','Ausente')->where('mes',$mes)->get(); 
@@ -76,10 +81,11 @@ class AsistenciaFamiliaController extends Controller
       } 
 
       if (empty($infoasistencia)) {
-        return view('AsistenciaFamilia.buscador',compact('infoaño','meses'));
+        return view('AsistenciaFamilia.buscador',compact('infoaño','meses','nombrealumno'));
       }
       else{
-    return view('AsistenciaFamilia.buscador',compact('infoaño','infoasistencia','meses'));
+    return view('AsistenciaFamilia.buscador',compact('infoaño','infoasistencia','meses','nombrealumno'));
+    }
     }
     }
     public function busquedasasistencias(Request $request)
@@ -95,6 +101,12 @@ class AsistenciaFamiliaController extends Controller
        'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre');
     $idfamilia=Auth::user()->idpersona;
     $nombrealumno=Alumno::where('familias_id',$idfamilia)->pluck('nombrecompleto');
+    if(sizeof($nombrealumno)==0)
+    {
+    return view('AsistenciaFamilia.buscador',compact('nombrealumno'));
+
+    }
+    else{
     $contadoralumnos=count($nombrealumno)-1;
     for($i=0;$i<=$contadoralumnos;$i++){
     $infoasistencias[]=Asistencia::where('nombrealumno',$nombrealumno[$i])->where('estado','Ausente')->where('mes',$mess)->get(); 
@@ -108,11 +120,12 @@ class AsistenciaFamiliaController extends Controller
       } 
 
       if (empty($infoasistencia)) {
-        return view('AsistenciaFamilia.buscador',compact('infoaño','meses','mess'));
+        return view('AsistenciaFamilia.buscador',compact('infoaño','meses','mess','nombrealumno'));
       }
       else{
-    return view('AsistenciaFamilia.buscador',compact('infoaño','infoasistencia','meses','mess'));
+    return view('AsistenciaFamilia.buscador',compact('infoaño','infoasistencia','meses','mess','nombrealumno'));
     }
+  }
     }
 
 

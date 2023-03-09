@@ -24,12 +24,12 @@ return [
     'routes' => [
         'prefix' => env('CHATIFY_ROUTES_PREFIX', 'chatify'),
         'middleware' => env('CHATIFY_ROUTES_MIDDLEWARE', ['web','auth']),
-        'namespace' => env('CHATIFY_ROUTES_NAMESPACE', 'App\Http\Controllers\vendor\Chatify'),
+        'namespace' => env('CHATIFY_ROUTES_NAMESPACE', 'Chatify\Http\Controllers'),
     ],
     'api_routes' => [
         'prefix' => env('CHATIFY_API_ROUTES_PREFIX', 'chatify/api'),
         'middleware' => env('CHATIFY_API_ROUTES_MIDDLEWARE', ['api']),
-        'namespace' => env('CHATIFY_API_ROUTES_NAMESPACE', 'App\Http\Controllers\vendor\Chatify\Api'),
+        'namespace' => env('CHATIFY_API_ROUTES_NAMESPACE', 'Chatify\Http\Controllers\Api'),
     ],
 
     /*
@@ -37,16 +37,15 @@ return [
     | Pusher API credentials
     |-------------------------------------
     */
-   'pusher' => [
-            'driver' => 'pusher',
-            'key' => env('PUSHER_APP_KEY'),
-            'secret' => env('PUSHER_APP_SECRET'),
-            'app_id' => env('PUSHER_APP_ID'),
-            'options' => [
-                'cluster' => env('PUSHER_APP_CLUSTER'),
-                'useTLS' => false
-            ],
+    'pusher' => [
+        'key' => env('PUSHER_APP_KEY'),
+        'secret' => env('PUSHER_APP_SECRET'),
+        'app_id' => env('PUSHER_APP_ID'),
+        'options' => [
+            'cluster' => env('PUSHER_APP_CLUSTER'),
+            'encrypted' => false,
         ],
+    ],
 
     /*
     |-------------------------------------
@@ -80,9 +79,9 @@ return [
     'attachments' => [
         'folder' => 'attachments',
         'download_route_name' => 'attachments.download',
-        'allowed_images' => (array) ['png','jpg','jpeg','gif'],
-        'allowed_files' => (array) ['zip','rar','txt'],
-        'max_upload_size' => env('CHATIFY_MAX_FILE_SIZE', 150), // MB
+        'allowed_images' => (array) ['png','jpg','jpeg','gif','bmp'],
+        'allowed_files' => (array) ['zip','rar','txt','pdf', 'doc', 'docx','mp3','avi', 'mp4' ,'mpeg','mwv','xlsx'],
+        'max_upload_size' => env('CHATIFY_MAX_FILE_SIZE', 1500000000), // MB
     ],
 
     /*

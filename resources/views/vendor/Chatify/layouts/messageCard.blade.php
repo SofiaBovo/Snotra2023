@@ -1,5 +1,3 @@
-
-
 {{-- -------------------- The default card (white) -------------------- --}}
 @if($viewType == 'default')
     @if($from_id != $to_id)
@@ -14,7 +12,9 @@
         </p>
         {{-- If attachment is an image --}}
         @if(@$attachment[2] == 'image')
-        <div class="image-file chat-image" style="width: 250px; height: 150px;background-image: url('{{ Chatify::getAttachmentUrl($attachment[0]) }}')">
+        <div class="message-card">
+            <div class="image-file chat-image" style="width: 250px; height: 150px;background-image: url('{{ asset('storage/public/'.config('chatify.attachments.folder').'/'.$attachment[0]) }}')">
+            </div>
         </div>
         @endif
     </div>
@@ -25,16 +25,11 @@
 @if($viewType == 'sender')
     <div class="message-card mc-sender" title="{{ $fullTime }}" data-id="{{ $id }}">
         <div class="chatify-d-flex chatify-align-items-center" style="flex-direction: row-reverse; justify-content: flex-end;">
-            <div>
-           <i class="fas fa-trash chatify-hover-delete-btn" data-id="{{ $id }}"></i>
-
-
-            </div>
+            <i class="fas fa-trash chatify-hover-delete-btn" data-id="{{ $id }}"></i>
             <p style="margin-left: 5px;">
                 {!! ($message == null && $attachment != null && @$attachment[2] != 'file') ? $attachment[1] : nl2br($message) !!}
                 <sub title="{{ $fullTime }}" class="message-time">
                     <span class="fas fa-{{ $seen > 0 ? 'check-double' : 'check' }} seen"></span> {{ $time }}</sub>
-                </sub>
                 {{-- If attachment is a file --}}
                 @if(@$attachment[2] == 'file')
                 <a href="{{ route(config('chatify.attachments.download_route_name'), ['fileName'=>$attachment[0]]) }}" class="file-download">
@@ -44,7 +39,7 @@
         </div>
         {{-- If attachment is an image --}}
         @if(@$attachment[2] == 'image')
-        <div class="image-file chat-image" style="margin-top:10px;width: 250px; height: 150px;background-image: url('{{ Chatify::getAttachmentUrl($attachment[0]) }}')">
+        <div class="image-file chat-image" style="margin-top:10px;width: 250px; height: 150px;background-image: url('{{ asset('storage/public/'.config('chatify.attachments.folder').'/'.$attachment[0]) }}')">
         </div>
         @endif
     </div>

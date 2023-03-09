@@ -10,7 +10,8 @@
             </td>
             {{-- center side --}}
             <td>
-                <p data-id="{{ Auth::user()->id }}" data-type="user">Mis notas</p>
+                <p data-id="{{ Auth::user()->id }}" data-type="user">Saved Messages <span>You</span></p>
+                <span>Save messages secretly</span>
             </td>
         </tr>
     </table>
@@ -32,13 +33,13 @@
         {{-- center side --}}
         <td>
         <p data-id="{{ $user->id }}" data-type="user">
-            {{ strlen($user->name) > 20 ? trim(substr($user->name,0,20)).'..' : $user->name }}
+            {{ strlen($user->name) > 12 ? trim(substr($user->name,0,12)).'..' : $user->name }}
             <span>{{ $lastMessage->created_at->diffForHumans() }}</span></p>
         <span>
             {{-- Last Message user indicator --}}
             {!!
                 $lastMessage->from_id == Auth::user()->id
-                ? '<span class="lastMessageIndicator">Vos :</span>'
+                ? '<span class="lastMessageIndicator">You :</span>'
                 : ''
             !!}
             {{-- Last message body --}}
@@ -49,7 +50,7 @@
                 : $lastMessage->body
             !!}
             @else
-            <span class="fas fa-file"></span> Archivo adjunto
+            <span class="fas fa-file"></span> Attachment
             @endif
         </span>
         {{-- New messages counter --}}
@@ -73,7 +74,7 @@
         {{-- center side --}}
         <td>
             <p data-id="{{ $user->id }}" data-type="user">
-            {{ strlen($user->name) > 20 ? trim(substr($user->name,0,20)).'..' : $user->name }}
+            {{ strlen($user->name) > 12 ? trim(substr($user->name,0,12)).'..' : $user->name }}
         </td>
 
     </tr>
