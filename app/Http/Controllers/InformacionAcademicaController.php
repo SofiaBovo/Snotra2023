@@ -2504,7 +2504,6 @@ class InformacionAcademicaController extends Controller
             }
             }
             $not=array_merge($promedioperiodo1,$promedioperiodo2);
-            $not=array_unique($not);
             $contadornot=count($not)-1;
             for($p=0;$p<=$contadornot;$p++){
             $ordencalifi[]=calificacioncualitativa::where('codigo',$not[$p])->pluck('orden');

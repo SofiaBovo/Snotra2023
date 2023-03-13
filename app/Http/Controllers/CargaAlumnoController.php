@@ -10,6 +10,7 @@ use App\Models\Año;
 use App\Models\Grado;
 use App\Models\Colegio;
 use App\Models\Abecedario;
+use App\Models\Asistencia;
 use Auth;
 use Session;
 use Redirect;
@@ -155,6 +156,10 @@ class CargaAlumnoController extends Controller
         $alumno->colegio_id=$idcolegio;
         $alumno->familias_id=$fami;
         $alumno->save();
+        $estado= Año::where('estado','activo')->where('id_colegio',$idcolegio)->get();
+        foreach ($estado as $idaño) {
+        $idest="$idaño->id";
+        }
         $fechacreacion=Alumno::where('dnialumno',$alumno->dnialumno)->pluck("created_at");
         $fechacreacion = preg_replace('/[\[\]\.\;\" "]+/', '', $fechacreacion);
         $añoactual = substr($fechacreacion, 0, 4);

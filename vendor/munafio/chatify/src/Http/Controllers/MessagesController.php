@@ -254,7 +254,6 @@ class MessagesController extends Controller
         ->where('users.id','!=',Auth::user()->id)
         ->select('users.*',DB::raw('MAX(ch_messages.created_at) max_created_at'))
         ->orderBy('max_created_at', 'desc')
-        ->groupBy('users.id')
         ->paginate($request->per_page ?? $this->perPage);
 
         $usersList = $users->items();
@@ -422,16 +421,6 @@ class MessagesController extends Controller
      * @param Request $request
      * @return JsonResponse
      */
-    public function deleteMessage(Request $request)
-    {
-        // delete
-        $delete = Chatify::deleteMessage($request['id']);
-
-        // send the response
-        return Response::json([
-            'deleted' => $delete ? 1 : 0,
-        ], 200);
-    }
 
     public function updateSettings(Request $request)
     {

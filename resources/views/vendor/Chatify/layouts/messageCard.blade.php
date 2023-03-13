@@ -25,7 +25,6 @@
 @if($viewType == 'sender')
     <div class="message-card mc-sender" title="{{ $fullTime }}" data-id="{{ $id }}">
         <div class="chatify-d-flex chatify-align-items-center" style="flex-direction: row-reverse; justify-content: flex-end;">
-            <i class="fas fa-trash chatify-hover-delete-btn" data-id="{{ $id }}"></i>
             <p style="margin-left: 5px;">
                 {!! ($message == null && $attachment != null && @$attachment[2] != 'file') ? $attachment[1] : nl2br($message) !!}
                 <sub title="{{ $fullTime }}" class="message-time">
