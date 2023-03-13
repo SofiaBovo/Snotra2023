@@ -26,13 +26,13 @@
                 <span class="activeStatus"></span>
             @endif
         <div class="avatar av-m"
-        style="background-image: url('{{ asset('/storage/public/'.config('chatify.user_avatar.folder').'/'.$user->avatar) }}');">
+       style="background-image: url('{{ asset('/storage/public/'.config('chatify.user_avatar.folder').'/'.$user->avatar) }}');">
         </div>
         </td>
         {{-- center side --}}
         <td>
         <p data-id="{{ $user->id }}" data-type="user">
-            {{ strlen($user->name) > 12 ? trim(substr($user->name,0,12)).'..' : $user->name }}
+            {{ strlen($user->name) > 20 ? trim(substr($user->name,0,20)).'..' : $user->name }}
             <span>{{ $lastMessage->created_at->diffForHumans() }}</span></p>
         <span>
             {{-- Last Message user indicator --}}

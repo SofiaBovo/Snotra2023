@@ -412,7 +412,7 @@ class ChatifyMessenger
      */
     public function getUserAvatarUrl($user_avatar_name)
     {
-        return self::storage()->url(config('chatify.user_avatar.folder') . '/' . $user_avatar_name);
+        return $user_avatar_name;
     }
 
     /**
