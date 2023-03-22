@@ -56,12 +56,21 @@
             <tbody>
               <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.js"></script>
               <script type="text/javascript">
-              function habilitartardanza() {
-              var x = document.getElementById("tardanzas");
-              if (x.disabled == false) {
-              x.disabled = true;
+              function habilitartardanza(alumnopresente) {
+              var arreglotardanzas = document.getElementsByName("tardanza[]");
+              var arregloasistencias = document.getElementsByName("estadoasistencia[]");
+              for (var i = arregloasistencias.length - 1; i >= 0; i--) {
+                if (arregloasistencias[i].value==alumnopresente) {
+                var orden = i;  
+                }
+              }
+              if (arregloasistencias[orden].checked == false) {
+              if(arreglotardanzas[orden].checked==true){
+              arreglotardanzas[orden].checked = false;  
+              }
+              arreglotardanzas[orden].disabled = true;
               } else {
-              x.disabled = false;
+              arreglotardanzas[orden].disabled = false;
               }
               }
               </script>
@@ -77,7 +86,7 @@
               <tr>
               <td class="v-align-middle">{{$infoasist->nombrealumno}}</td>
               <td>
-              <input type="checkbox" id="estadoasistencias" name="estadoasistencia[]"  value="{{$infoasist->id_alumno}}" onclick="habilitartardanza()" <?php if($infoasist->estado=='Presente') echo 'checked ';?>>
+              <input type="checkbox" id="estadoasistencias" name="estadoasistencia[]"  value="{{$infoasist->id_alumno}}" onclick="habilitartardanza({{$infoasist->id_alumno}})" <?php if($infoasist->estado=='Presente') echo 'checked ';?>>
               </td>
               @if($tipodoc=='Grado')
               <td>

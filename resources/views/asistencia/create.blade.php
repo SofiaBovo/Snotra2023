@@ -13,13 +13,26 @@
         <div class="card-body">
           @if($tipodoc!='Grado')  
         <div class="text-left">
-            <h5><span class="badge badge-success">Edición de asistencias de {{$gradodocente}}.</span></h5>
+            <h5><span class="badge badge-success">Carga de asistencias de {{$gradodocente}}.</span></h5>
         </div>
         @endif
             @if(empty($danger))
             @else
             <div class="alert alert-danger">
             {{$danger}}
+            </div>
+            <script type="text/javascript">
+            window.setTimeout(function() {
+            $(".alert-danger").fadeTo(400, 0).slideUp(400, function(){
+            $(this).remove(); 
+            });
+            }, 2000);
+            </script>
+            @endif
+            @if(empty($error))
+            @else
+            <div class="alert alert-danger">
+            {{$error}}
             </div>
             <script type="text/javascript">
             window.setTimeout(function() {
@@ -66,19 +79,48 @@
               @endif
             </thead>                    
             <tbody>
+              
+            &nbsp <strong><input type="checkbox" onclick="habilitartardanzatodos()"  id="checkTodos" style="width: 13px;height: 13px; padding: 0;margin:0;vertical-align: bottom;position: relative;top: -6.5px;*overflow: hidden;"/>&nbspMarcar/Desmarcar todos</strong>
+              @foreach($infoasistencia as $infoasist)
+              <tr>
+              <td class="v-align-middle">{{$infoasist->nombrealumno}}</td>
+              <td>
+              <input type="checkbox" id="estadoasistencias" name="estadoasistencia[]" onclick="habilitartardanza({{$infoasist->id_alumno}})" value="{{$infoasist->id_alumno}}">
               <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.js"></script>
+              <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
               <script type="text/javascript">
-              function habilitartardanza(i) {
-              var x = document.getElementByName("tardanza");
-              document.getElementById("mostrarjava").innerHTML=x.value;
-              if (x.disabled == false) {
-              x.disabled = true;
+              function habilitartardanza(alumnopresente) {
+              var arreglotardanzas = document.getElementsByName("tardanza[]");
+              var arregloasistencias = document.getElementsByName("estadoasistencia[]");
+              for (var i = arregloasistencias.length - 1; i >= 0; i--) {
+                if (arregloasistencias[i].value==alumnopresente) {
+                var orden = i;  
+                }
+              }
+              if (arregloasistencias[orden].checked == false) {
+              if(arreglotardanzas[orden].checked==true){
+              arreglotardanzas[orden].checked = false;  
+              }
+              arreglotardanzas[orden].disabled = true;
               } else {
-              x.disabled = false;
+              arreglotardanzas[orden].disabled = false;
+              }
+              }
+              function habilitartardanzatodos() {
+              var arreglotardanzas = document.getElementsByName("tardanza[]");
+              var arregloasistencias = document.getElementsByName("estadoasistencia[]");
+              for (var i = arregloasistencias.length - 1; i >= 0; i--) {
+                if (arregloasistencias[i].checked == true) {
+              if(arreglotardanzas[i].checked==true){
+              arreglotardanzas[i].checked = false;  
+              }
+              arreglotardanzas[i].disabled = true;
+              } else {
+              arreglotardanzas[i].disabled = false;
+              }
               }
               }
               </script>
-              <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
               <script>
               $(function(){
               $('#checkTodos').change(function() {
@@ -86,16 +128,10 @@
               });
               });
               </script>
-            &nbsp <strong><input onclick="habilitartardanza()" type="checkbox"  id="checkTodos" style="width: 13px;height: 13px; padding: 0;margin:0;vertical-align: bottom;position: relative;top: -6.5px;*overflow: hidden;"/>&nbspMarcar/Desmarcar todos</strong>
-              @foreach($infoasistencia as $infoasist)
-              <tr>
-              <td class="v-align-middle">{{$infoasist->nombrealumno}}</td>
-              <td>
-              <input type="checkbox" id="estadoasistencias" name="estadoasistencia[]" onclick="habilitartardanza(this)" value="{{$infoasist->id_alumno}}">
               </td>
               @if($tipodoc=='Grado') 
               <td>
-              <input type="checkbox" id="tardanzas" name="tardanza[]" disabled value="{{$infoasist->id_alumno}}">
+              <input type="checkbox" id="tardanzas" name="tardanza[]" value="{{$infoasist->id_alumno}}" disabled>
               </td>
               @endif
               </tr>

@@ -395,7 +395,7 @@ class ControllerEvent extends Controller
 
     public function listadofamilias(){
     $idautenticado=Auth::user()->id;
-    $eventosanteriores=Event::where('participantes', $idautenticado)->where('fecha', '<', Carbon::now()->format('Y-m-d'))->orderBy('fecha','DESC');
+    $eventosanteriores=Event::where('participantes', $idautenticado)->where('fecha', '<', Carbon::now()->format('Y-m-d'))->orderBy('fecha','DESC')->get();
     return view('evento.eventosfamilia',compact('eventosanteriores','idautenticado'));
     }
 

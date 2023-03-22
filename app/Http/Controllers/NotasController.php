@@ -146,7 +146,7 @@ class NotasController extends Controller
     ]);
     $criterios=criteriosevaluacion::where('id_usuario', $idusuario)->where('periodo',$periodo)->where('id_grado',$grado)->where('id_año',$descripcionaño)->get();
     $infonotas=Notas::where('docente',Auth::user()->id)->where('periodo',$periodo)->where('grado',$grado)->where('colegio_id',$idcolegio)->where('año',$añoactivo)->get();
-    $infoalumnos=$infonotas->unique('nombrealumno')->unique('apellidoalumno');
+    $infoalumnos=$infonotas->unique('nombrealumno','apellidoalumno');
     $infocriterios=$infonotas->unique('criterio');
     $infoinformes=Informes::where('docente',Auth::user()->id)->where('periodo',$periodo)->where('grado',$grado)->where('colegio_id',$idcolegio)->where('año',$añoactivo)->get();
      $infogrado=Grado::where('colegio_id',$idcolegio)->orderby('num_grado','ASC')->get();
@@ -244,11 +244,11 @@ class NotasController extends Controller
     $infonotas=Informes::where('docente',Auth::user()->id)->where('periodo',$periodo)->where('grado',$grado)->where('colegio_id',$idcolegio)->where('año',$añoactivo)->pluck("id_alumno");
     $conta=count($infonotas)-1;
     $data= $request->observacion;
-    $idalumnos=Informes::where('grado',$grado)->where('colegio_id',$idcolegio)->where('año',$añoactivo)->pluck("id_alumno");
+    $idalumnos=Informes::where('grado',$grado)->where('colegio_id',$idcolegio)->where('año',$añoactivo)->pluck("id_alumno")->unique();
     $idalumnos = preg_replace('/[\[\]\.\;\""]+/', '', $idalumnos);
     $idalumnos=explode(',',$idalumnos);
     for ($i=0; $i <=$conta ; $i++) { 
-    $busquedaInformes=Informes::where('id_alumno', $id_alumno)->where('grado',$grado)->where('colegio_id',$idcolegio)->where('año',$añoactivo)->first();
+    $busquedaInformes=Informes::where('id_alumno', $id_alumno)->where('grado',$grado)->where('colegio_id',$idcolegio)->where('año',$añoactivo)->where('docente',Auth::user()->id)->where('periodo',$periodo)->first();
     if($idalumnos[$i]==$id_alumno){
     $busquedaInformes->observacion=$data[$i]; 
     $busquedaInformes->save();
@@ -502,7 +502,7 @@ $notafinal->save();
     }
     $contcriterio=count($nombrecriterio)-1;
     for($i=0;$i<=$contcriterio;$i++){
-         $pondecriterios[]=CriteriosEvaluacion::where('criterio',$nombrecriterio[$i])->where('id_grado',$grado)->where('id_usuario',Auth::user()->id)->pluck("ponderacion");
+         $pondecriterios[]=CriteriosEvaluacion::where('criterio',$nombrecriterio[$i])->where('id_grado',$grado)->where('id_usuario',Auth::user()->id)->where('periodo',$periodo)->pluck("ponderacion");
     }
     $pondecriterios = preg_replace('/[\[\]\.\;\""]+/', '', $pondecriterios);
     $sumaponderacion=array_sum($pondecriterios);
@@ -526,8 +526,8 @@ $notafinal->save();
     $cont1=count($variable)-1;
     $cont2=count($pondecriterios)-1;
     $cont3=count($pondecriterios);
-     $suma=0;
-    for ($i=0; $i <=$cont1 ; $i=$i+$cont3) { 
+    for ($i=0; $i <=$cont1 ; $i=$i+$cont3) {
+    $suma=0;
     for ($j=0; $j <=$cont2 ; $j++) { 
     $suma=$suma+($pondecriterios[$j] * $variable[$i+$j]);
     }
@@ -874,7 +874,7 @@ public function updateobservacionfinal(Request $request,$id_alumnos)
     $idalumnos = preg_replace('/[\[\]\.\;\""]+/', '', $idalumnos);
     $idalumnos=explode(',',$idalumnos);
     for ($i=0; $i <=$contador ; $i++) { 
-    $busquedaInformes=NotaFinal::where('id_alumno', $id_alumnos)->where('grado',$grado)->where('colegio_id',$idcolegio)->where('año',$añoactivo)->first();
+    $busquedaInformes=NotaFinal::where('id_alumno', $id_alumnos)->where('grado',$grado)->where('colegio_id',$idcolegio)->where('año',$añoactivo)->where('docente',Auth::user()->id)->first();
     if($idalumnos[$i]==$id_alumnos){
     $busquedaInformes->observacion=$data[$i]; 
     $busquedaInformes->save();
@@ -928,11 +928,11 @@ public function updatenotafinal(Request $request)
     }
     if($tipodoc!='Grado'){
     $grado=$request->grado;
-    $alumnonota=NotaFinal::where('grado',$grado)->where('colegio_id',$idcolegio)->where('año',$añoactivo)->pluck('id_alumno');
+    $alumnonota=NotaFinal::where('grado',$grado)->where('colegio_id',$idcolegio)->where('año',$añoactivo)->pluck('id_alumno')->unique();
     $notafinal= $request->calificacion;
     $contador=count($notafinal)-1;
     for ($i=0; $i <=$contador ; $i++) {
-    $busquedaInformes=NotaFinal::where('id_alumno', $alumnonota[$i])->where('grado',$grado)->where('colegio_id',$idcolegio)->where('año',$añoactivo)->first();
+    $busquedaInformes=NotaFinal::where('id_alumno', $alumnonota[$i])->where('grado',$grado)->where('colegio_id',$idcolegio)->where('docente',Auth::user()->id)->where('año',$añoactivo)->first();
        if($notafinal[$i]!=null){
     $busquedaInformes->nota=$notafinal[$i]; 
     $busquedaInformes->save();

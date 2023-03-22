@@ -179,7 +179,7 @@
             }
             }
             </script>
-            <small class="form-text text-muted">Permite darle un peso al criterio de evaluación para luego obtener una nota final.</small>   
+            <small class="form-text text-muted">&nbsp &nbsp Permite darle un peso al criterio de evaluación para luego obtener una nota final.</small>   
             @if ($errors->has('ponderacion'))
                 <div id="ponderacion-error" class="error text-danger pl-3" for="ponderacion" style="display: block;">
                   <strong>{{ $errors->first('ponderacion') }}</strong>

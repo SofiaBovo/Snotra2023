@@ -1,7 +1,6 @@
 <?php
 
 namespace App\Http\Controllers;
-header('Content-type: text/html; charset=UTF-8');
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
@@ -225,68 +224,6 @@ class CriteriosevaluacionController extends Controller
         $nuevocriterio->periodo='Cuarta Etapa';
         }
         $nuevocriterio->save();
-        }
-        }
-        if($infoperiodo=='Trimestre'){
-        for($i=1;$i<=3;$i++){
-        $nuevocriterio=new CriteriosEvaluacion();
-        $nuevocriterio->criterio=$request->criterio;
-        $nuevocriterio->ponderacion=$request->ponderacion;
-        $nuevocriterio->descripcion=$request->descripcion;
-        $nuevocriterio->id_usuario=Auth::user()->id;
-        $nuevocriterio->id_año=$descripcionaño;
-        $nuevocriterio->id_espacio=$request->espaciocurricular;
-        $nuevocriterio->id_grado=$gradodocente; 
-        if($i==1){ 
-        $nuevocriterio->periodo='Primera Etapa';
-        }
-        if($i==2){ 
-        $nuevocriterio->periodo='Segunda Etapa';
-        }
-        if($i==3){ 
-        $nuevocriterio->periodo='Tercera Etapa';
-        }
-        $nuevocriterio->save();
-        }
-        }
-        if($infoperiodo=='Cuatrimestre'){
-        for($i=1;$i<=2;$i++){
-        $nuevocriterio=new CriteriosEvaluacion();
-        $nuevocriterio->criterio=$request->criterio;
-        $nuevocriterio->ponderacion=$request->ponderacion;
-        $nuevocriterio->descripcion=$request->descripcion;
-        $nuevocriterio->id_usuario=Auth::user()->id;
-        $nuevocriterio->id_año=$descripcionaño;
-        $nuevocriterio->id_espacio=$request->espaciocurricular;
-        $nuevocriterio->id_grado=$gradodocente; 
-        if($i==1){ 
-        $nuevocriterio->periodo='Primera Etapa';
-        }
-        if($i==2){ 
-        $nuevocriterio->periodo='Segunda Etapa';
-        }
-        $nuevocriterio->save();
-        }
-        }
-        if($infoperiodo=='Semestre'){
-        for($i=1;$i<=2;$i++){
-        $nuevocriterio=new CriteriosEvaluacion();
-        $nuevocriterio->criterio=$request->criterio;
-        $nuevocriterio->ponderacion=$request->ponderacion;
-        $nuevocriterio->descripcion=$request->descripcion;
-        $nuevocriterio->id_usuario=Auth::user()->id;
-        $nuevocriterio->id_año=$descripcionaño;
-        $nuevocriterio->id_espacio=$request->espaciocurricular;
-        $nuevocriterio->id_grado=$gradodocente; 
-        if($i==1){ 
-        $nuevocriterio->periodo='Primera Etapa';
-        }
-        if($i==2){ 
-        $nuevocriterio->periodo='Segunda Etapa';
-        }
-        $nuevocriterio->save();
-        }
-        }
         $infogrado=Grado::where('id_docentes',Auth::user()->idpersona)->where('id_anio',$idaño)->where('colegio_id',$idcolegio)->get();
         $listadoinformes=Informes::where('colegio_id',$idcolegio)->where('año',$idaño)->where('docente',Auth::user()->id)->where('espacio',$request->espaciocurricular)->where('periodo',$nuevocriterio->periodo)->get();
         foreach($infogrado as $info){
@@ -294,8 +231,8 @@ class CriteriosevaluacionController extends Controller
         $array = preg_replace('/[\[\]\.\;\" "]+/', '', $listadoalumnos);
         $array=explode("," , $array);
         $contador=count($array)-1;
-        for($i=0;$i<=$contador;$i++){
-        $infoalumno=Alumno::where('id',$array[$i])->get();
+        for($j=0;$j<=$contador;$j++){
+        $infoalumno=Alumno::where('id',$array[$j])->get();
         foreach($infoalumno as $infalu){
         $nombrealumnos="$infalu->nombrealumno";
         $apellidoalumnos="$infalu->apellidoalumno";
@@ -330,6 +267,191 @@ class CriteriosevaluacionController extends Controller
     }
         }
         }
+        if($infoperiodo=='Trimestre'){
+        for($i=1;$i<=3;$i++){
+        $nuevocriterio=new CriteriosEvaluacion();
+        $nuevocriterio->criterio=$request->criterio;
+        $nuevocriterio->ponderacion=$request->ponderacion;
+        $nuevocriterio->descripcion=$request->descripcion;
+        $nuevocriterio->id_usuario=Auth::user()->id;
+        $nuevocriterio->id_año=$descripcionaño;
+        $nuevocriterio->id_espacio=$request->espaciocurricular;
+        $nuevocriterio->id_grado=$gradodocente; 
+        if($i==1){ 
+        $nuevocriterio->periodo='Primera Etapa';
+        }
+        if($i==2){ 
+        $nuevocriterio->periodo='Segunda Etapa';
+        }
+        if($i==3){ 
+        $nuevocriterio->periodo='Tercera Etapa';
+        }
+        $nuevocriterio->save();
+        $infogrado=Grado::where('id_docentes',Auth::user()->idpersona)->where('id_anio',$idaño)->where('colegio_id',$idcolegio)->get();
+        $listadoinformes=Informes::where('colegio_id',$idcolegio)->where('año',$idaño)->where('docente',Auth::user()->id)->where('espacio',$request->espaciocurricular)->where('periodo',$nuevocriterio->periodo)->get();
+        foreach($infogrado as $info){
+        $listadoalumnos="$info->id_alumnos";
+        $array = preg_replace('/[\[\]\.\;\" "]+/', '', $listadoalumnos);
+        $array=explode("," , $array);
+        $contador=count($array)-1;
+        for($j=0;$j<=$contador;$j++){
+        $infoalumno=Alumno::where('id',$array[$j])->get();
+        foreach($infoalumno as $infalu){
+        $nombrealumnos="$infalu->nombrealumno";
+        $apellidoalumnos="$infalu->apellidoalumno";
+        $idalumno="$infalu->id";
+        }
+        $nota=new Notas();
+        $nota->docente=Auth::user()->id;
+        $nota->criterio=$nuevocriterio->criterio;
+        $nota->colegio_id=$idcolegio;
+        $nota->periodo=$nuevocriterio->periodo;
+        $nota->año=$idaño;
+        $nota->nombrealumno=$nombrealumnos;
+        $nota->apellidoalumno=$apellidoalumnos;
+        $nota->id_alumno=$idalumno;
+        $nota->espacio=$request->espaciocurricular;
+        $nota->grado=$gradodocente;
+        $nota->save();
+        
+        if($listadoinformes->isEmpty()){
+        $informe=new Informes();
+        $informe->observacion=$request->observacion;
+        $informe->año=$idaño;
+        $informe->colegio_id=$idcolegio;
+        $informe->id_alumno=$idalumno;
+        $informe->docente=Auth::user()->id;
+        $informe->periodo=$nuevocriterio->periodo;
+        $informe->espacio=$request->espaciocurricular;
+        $informe->grado=$gradodocente;
+        $informe->save();
+        }
+    }
+    }
+        }
+        }
+        if($infoperiodo=='Cuatrimestre'){
+        for($i=1;$i<=2;$i++){
+        $nuevocriterio=new CriteriosEvaluacion();
+        $nuevocriterio->criterio=$request->criterio;
+        $nuevocriterio->ponderacion=$request->ponderacion;
+        $nuevocriterio->descripcion=$request->descripcion;
+        $nuevocriterio->id_usuario=Auth::user()->id;
+        $nuevocriterio->id_año=$descripcionaño;
+        $nuevocriterio->id_espacio=$request->espaciocurricular;
+        $nuevocriterio->id_grado=$gradodocente; 
+        if($i==1){ 
+        $nuevocriterio->periodo='Primera Etapa';
+        }
+        if($i==2){ 
+        $nuevocriterio->periodo='Segunda Etapa';
+        }
+        $nuevocriterio->save();
+        $infogrado=Grado::where('id_docentes',Auth::user()->idpersona)->where('id_anio',$idaño)->where('colegio_id',$idcolegio)->get();
+        $listadoinformes=Informes::where('colegio_id',$idcolegio)->where('año',$idaño)->where('docente',Auth::user()->id)->where('espacio',$request->espaciocurricular)->where('periodo',$nuevocriterio->periodo)->get();
+        foreach($infogrado as $info){
+        $listadoalumnos="$info->id_alumnos";
+        $array = preg_replace('/[\[\]\.\;\" "]+/', '', $listadoalumnos);
+        $array=explode("," , $array);
+        $contador=count($array)-1;
+        for($j=0;$j<=$contador;$j++){
+        $infoalumno=Alumno::where('id',$array[$j])->get();
+        foreach($infoalumno as $infalu){
+        $nombrealumnos="$infalu->nombrealumno";
+        $apellidoalumnos="$infalu->apellidoalumno";
+        $idalumno="$infalu->id";
+        }
+        $nota=new Notas();
+        $nota->docente=Auth::user()->id;
+        $nota->criterio=$nuevocriterio->criterio;
+        $nota->colegio_id=$idcolegio;
+        $nota->periodo=$nuevocriterio->periodo;
+        $nota->año=$idaño;
+        $nota->nombrealumno=$nombrealumnos;
+        $nota->apellidoalumno=$apellidoalumnos;
+        $nota->id_alumno=$idalumno;
+        $nota->espacio=$request->espaciocurricular;
+        $nota->grado=$gradodocente;
+        $nota->save();
+        
+        if($listadoinformes->isEmpty()){
+        $informe=new Informes();
+        $informe->observacion=$request->observacion;
+        $informe->año=$idaño;
+        $informe->colegio_id=$idcolegio;
+        $informe->id_alumno=$idalumno;
+        $informe->docente=Auth::user()->id;
+        $informe->periodo=$nuevocriterio->periodo;
+        $informe->espacio=$request->espaciocurricular;
+        $informe->grado=$gradodocente;
+        $informe->save();
+        }
+    }
+    }
+        }
+        }
+        if($infoperiodo=='Semestre'){
+        for($i=1;$i<=2;$i++){
+        $nuevocriterio=new CriteriosEvaluacion();
+        $nuevocriterio->criterio=$request->criterio;
+        $nuevocriterio->ponderacion=$request->ponderacion;
+        $nuevocriterio->descripcion=$request->descripcion;
+        $nuevocriterio->id_usuario=Auth::user()->id;
+        $nuevocriterio->id_año=$descripcionaño;
+        $nuevocriterio->id_espacio=$request->espaciocurricular;
+        $nuevocriterio->id_grado=$gradodocente; 
+        if($i==1){ 
+        $nuevocriterio->periodo='Primera Etapa';
+        }
+        if($i==2){ 
+        $nuevocriterio->periodo='Segunda Etapa';
+        }
+        $nuevocriterio->save();
+        $infogrado=Grado::where('id_docentes',Auth::user()->idpersona)->where('id_anio',$idaño)->where('colegio_id',$idcolegio)->get();
+        $listadoinformes=Informes::where('colegio_id',$idcolegio)->where('año',$idaño)->where('docente',Auth::user()->id)->where('espacio',$request->espaciocurricular)->where('periodo',$nuevocriterio->periodo)->get();
+        foreach($infogrado as $info){
+        $listadoalumnos="$info->id_alumnos";
+        $array = preg_replace('/[\[\]\.\;\" "]+/', '', $listadoalumnos);
+        $array=explode("," , $array);
+        $contador=count($array)-1;
+        for($j=0;$j<=$contador;$j++){
+        $infoalumno=Alumno::where('id',$array[$j])->get();
+        foreach($infoalumno as $infalu){
+        $nombrealumnos="$infalu->nombrealumno";
+        $apellidoalumnos="$infalu->apellidoalumno";
+        $idalumno="$infalu->id";
+        }
+        $nota=new Notas();
+        $nota->docente=Auth::user()->id;
+        $nota->criterio=$nuevocriterio->criterio;
+        $nota->colegio_id=$idcolegio;
+        $nota->periodo=$nuevocriterio->periodo;
+        $nota->año=$idaño;
+        $nota->nombrealumno=$nombrealumnos;
+        $nota->apellidoalumno=$apellidoalumnos;
+        $nota->id_alumno=$idalumno;
+        $nota->espacio=$request->espaciocurricular;
+        $nota->grado=$gradodocente;
+        $nota->save();
+        
+        if($listadoinformes->isEmpty()){
+        $informe=new Informes();
+        $informe->observacion=$request->observacion;
+        $informe->año=$idaño;
+        $informe->colegio_id=$idcolegio;
+        $informe->id_alumno=$idalumno;
+        $informe->docente=Auth::user()->id;
+        $informe->periodo=$nuevocriterio->periodo;
+        $informe->espacio=$request->espaciocurricular;
+        $informe->grado=$gradodocente;
+        $informe->save();
+        }
+    }
+    }
+        }
+        }
+        }
+        }
         
         else{
         if(empty($checkperiodo)){
@@ -338,6 +460,7 @@ class CriteriosevaluacionController extends Controller
         'ponderacion' => ['required','int'],
         'descripcion' => ['max:150'],
         ]);
+        for($j=0;$j<=$contadorinfocol;$j++){
         $nuevocriterio=new CriteriosEvaluacion();
         $nuevocriterio->criterio=$request->criterio;
         $nuevocriterio->ponderacion=$request->ponderacion;
@@ -345,8 +468,11 @@ class CriteriosevaluacionController extends Controller
         $nuevocriterio->id_usuario=Auth::user()->id;
         $nuevocriterio->id_año=$descripcionaño;
         $nuevocriterio->periodo=$request->periodo;
-        $nuevocriterio->id_espacio=$request->espaciocurricular;
         $nuevocriterio->id_grado=$gradodocente;
+        $nombreespacios=espacioscurriculares::where('id',$infocol[$j])->get();
+        foreach($nombreespacios as $nombreesp){
+        $nuevocriterio->id_espacio="$nombreesp->nombre";
+        }
         $nuevocriterio->save(); 
         $infogrado=Grado::where('id_docentes',Auth::user()->idpersona)->where('id_anio',$idaño)->where('colegio_id',$idcolegio)->get();
         $listadoinformes=Informes::where('colegio_id',$idcolegio)->where('año',$idaño)->where('docente',Auth::user()->id)->where('espacio',$request->espaciocurricular)->where('periodo',$nuevocriterio->periodo)->get();
@@ -371,7 +497,9 @@ class CriteriosevaluacionController extends Controller
         $nota->nombrealumno=$nombrealumnos;
         $nota->apellidoalumno=$apellidoalumnos;
         $nota->id_alumno=$idalumno;
-        $nota->espacio=$request->espaciocurricular;
+        foreach($nombreespacios as $nombreesp){
+        $nota->espacio="$nombreesp->nombre";
+        }
         $nota->grado=$gradodocente;
         $nota->save();
         
@@ -383,12 +511,15 @@ class CriteriosevaluacionController extends Controller
         $informe->id_alumno=$idalumno;
         $informe->docente=Auth::user()->id;
         $informe->periodo=$nuevocriterio->periodo;
-        $informe->espacio=$request->espaciocurricular;
+        foreach($nombreespacios as $nombreesp){
+        $informe->espacio="$nombreesp->nombre";
+        }
         $informe->grado=$gradodocente;
         $informe->save();
         }
     }
     }
+}
         }
         else{
         $request->validate([
@@ -422,6 +553,51 @@ class CriteriosevaluacionController extends Controller
         $nuevocriterio->periodo='Cuarta Etapa';
         }
         $nuevocriterio->save();
+        $infogrado=Grado::where('id_docentes',Auth::user()->idpersona)->where('id_anio',$idaño)->where('colegio_id',$idcolegio)->get();
+        $listadoinformes=Informes::where('colegio_id',$idcolegio)->where('año',$idaño)->where('docente',Auth::user()->id)->where('espacio',$request->espaciocurricular)->where('periodo',$nuevocriterio->periodo)->get();
+        foreach($infogrado as $info){
+        $listadoalumnos="$info->id_alumnos";
+        $array = preg_replace('/[\[\]\.\;\" "]+/', '', $listadoalumnos);
+        $array=explode("," , $array);
+        $contador=count($array)-1;
+        for($k=0;$k<=$contador;$k++){
+        $infoalumno=Alumno::where('id',$array[$k])->get();
+        foreach($infoalumno as $infalu){
+        $nombrealumnos="$infalu->nombrealumno";
+        $apellidoalumnos="$infalu->apellidoalumno";
+        $idalumno="$infalu->id";
+        }
+        $nota=new Notas();
+        $nota->docente=Auth::user()->id;
+        $nota->criterio=$nuevocriterio->criterio;
+        $nota->colegio_id=$idcolegio;
+        $nota->periodo=$nuevocriterio->periodo;
+        $nota->año=$idaño;
+        $nota->nombrealumno=$nombrealumnos;
+        $nota->apellidoalumno=$apellidoalumnos;
+        $nota->id_alumno=$idalumno;
+        foreach($nombreespacios as $nombreesp){
+        $nota->espacio="$nombreesp->nombre";
+        }
+        $nota->grado=$gradodocente;
+        $nota->save();
+        
+        if($listadoinformes->isEmpty()){
+        $informe=new Informes();
+        $informe->observacion=$request->observacion;
+        $informe->año=$idaño;
+        $informe->colegio_id=$idcolegio;
+        $informe->id_alumno=$idalumno;
+        $informe->docente=Auth::user()->id;
+        $informe->periodo=$nuevocriterio->periodo;
+        foreach($nombreespacios as $nombreesp){
+        $informe->espacio="$nombreesp->nombre";
+        }
+        $informe->grado=$gradodocente;
+        $informe->save();
+        }
+    }
+    }
         }
         }
         if($infoperiodo=='Trimestre'){
@@ -450,10 +626,56 @@ class CriteriosevaluacionController extends Controller
         $nuevocriterio->periodo='Tercera Etapa';
         }
         $nuevocriterio->save();
+        $infogrado=Grado::where('id_docentes',Auth::user()->idpersona)->where('id_anio',$idaño)->where('colegio_id',$idcolegio)->get();
+        $listadoinformes=Informes::where('colegio_id',$idcolegio)->where('año',$idaño)->where('docente',Auth::user()->id)->where('espacio',$request->espaciocurricular)->where('periodo',$nuevocriterio->periodo)->get();
+        foreach($infogrado as $info){
+        $listadoalumnos="$info->id_alumnos";
+        $array = preg_replace('/[\[\]\.\;\" "]+/', '', $listadoalumnos);
+        $array=explode("," , $array);
+        $contador=count($array)-1;
+        for($k=0;$k<=$contador;$k++){
+        $infoalumno=Alumno::where('id',$array[$k])->get();
+        foreach($infoalumno as $infalu){
+        $nombrealumnos="$infalu->nombrealumno";
+        $apellidoalumnos="$infalu->apellidoalumno";
+        $idalumno="$infalu->id";
+        }
+        $nota=new Notas();
+        $nota->docente=Auth::user()->id;
+        $nota->criterio=$nuevocriterio->criterio;
+        $nota->colegio_id=$idcolegio;
+        $nota->periodo=$nuevocriterio->periodo;
+        $nota->año=$idaño;
+        $nota->nombrealumno=$nombrealumnos;
+        $nota->apellidoalumno=$apellidoalumnos;
+        $nota->id_alumno=$idalumno;
+        foreach($nombreespacios as $nombreesp){
+        $nota->espacio="$nombreesp->nombre";
+        }
+        $nota->grado=$gradodocente;
+        $nota->save();
+        
+        if($listadoinformes->isEmpty()){
+        $informe=new Informes();
+        $informe->observacion=$request->observacion;
+        $informe->año=$idaño;
+        $informe->colegio_id=$idcolegio;
+        $informe->id_alumno=$idalumno;
+        $informe->docente=Auth::user()->id;
+        $informe->periodo=$nuevocriterio->periodo;
+        foreach($nombreespacios as $nombreesp){
+        $informe->espacio="$nombreesp->nombre";
+        }
+        $informe->grado=$gradodocente;
+        $informe->save();
+        }
+    }
+    }
         }
         }
         if($infoperiodo=='Cuatrimestre'){
         for($i=1;$i<=2;$i++){
+        for($j=0;$j<=$contadorinfocol;$j++){
         $nuevocriterio=new CriteriosEvaluacion();
         $nuevocriterio->criterio=$request->criterio;
         $nuevocriterio->ponderacion=$request->ponderacion;
@@ -461,7 +683,7 @@ class CriteriosevaluacionController extends Controller
         $nuevocriterio->id_usuario=Auth::user()->id;
         $nuevocriterio->id_año=$descripcionaño;
         $nuevocriterio->id_grado=$gradodocente;
-        $nombreespacios=espacioscurriculares::where('id',$infocol[$i])->get();
+        $nombreespacios=espacioscurriculares::where('id',$infocol[$j])->get();
         foreach($nombreespacios as $nombreesp){
         $nuevocriterio->id_espacio="$nombreesp->nombre";
         }
@@ -472,6 +694,52 @@ class CriteriosevaluacionController extends Controller
         $nuevocriterio->periodo='Segunda Etapa';
         }
         $nuevocriterio->save();
+        $infogrado=Grado::where('id_docentes',Auth::user()->idpersona)->where('id_anio',$idaño)->where('colegio_id',$idcolegio)->get();
+        $listadoinformes=Informes::where('colegio_id',$idcolegio)->where('año',$idaño)->where('docente',Auth::user()->id)->where('espacio',$request->espaciocurricular)->where('periodo',$nuevocriterio->periodo)->get();
+        foreach($infogrado as $info){
+        $listadoalumnos="$info->id_alumnos";
+        $array = preg_replace('/[\[\]\.\;\" "]+/', '', $listadoalumnos);
+        $array=explode("," , $array);
+        $contador=count($array)-1;
+        for($k=0;$k<=$contador;$k++){
+        $infoalumno=Alumno::where('id',$array[$k])->get();
+        foreach($infoalumno as $infalu){
+        $nombrealumnos="$infalu->nombrealumno";
+        $apellidoalumnos="$infalu->apellidoalumno";
+        $idalumno="$infalu->id";
+        }
+        $nota=new Notas();
+        $nota->docente=Auth::user()->id;
+        $nota->criterio=$nuevocriterio->criterio;
+        $nota->colegio_id=$idcolegio;
+        $nota->periodo=$nuevocriterio->periodo;
+        $nota->año=$idaño;
+        $nota->nombrealumno=$nombrealumnos;
+        $nota->apellidoalumno=$apellidoalumnos;
+        $nota->id_alumno=$idalumno;
+        foreach($nombreespacios as $nombreesp){
+        $nota->espacio="$nombreesp->nombre";
+        }
+        $nota->grado=$gradodocente;
+        $nota->save();
+        
+        if($listadoinformes->isEmpty()){
+        $informe=new Informes();
+        $informe->observacion=$request->observacion;
+        $informe->año=$idaño;
+        $informe->colegio_id=$idcolegio;
+        $informe->id_alumno=$idalumno;
+        $informe->docente=Auth::user()->id;
+        $informe->periodo=$nuevocriterio->periodo;
+        foreach($nombreespacios as $nombreesp){
+        $informe->espacio="$nombreesp->nombre";
+        }
+        $informe->grado=$gradodocente;
+        $informe->save();
+        }
+    }
+    }
+        }
         }
         }
         if($infoperiodo=='Semestre'){
@@ -494,8 +762,6 @@ class CriteriosevaluacionController extends Controller
         $nuevocriterio->periodo='Segunda Etapa';
         }
         $nuevocriterio->save();
-        }
-        }
         $infogrado=Grado::where('id_docentes',Auth::user()->idpersona)->where('id_anio',$idaño)->where('colegio_id',$idcolegio)->get();
         $listadoinformes=Informes::where('colegio_id',$idcolegio)->where('año',$idaño)->where('docente',Auth::user()->id)->where('espacio',$request->espaciocurricular)->where('periodo',$nuevocriterio->periodo)->get();
         foreach($infogrado as $info){
@@ -503,8 +769,8 @@ class CriteriosevaluacionController extends Controller
         $array = preg_replace('/[\[\]\.\;\" "]+/', '', $listadoalumnos);
         $array=explode("," , $array);
         $contador=count($array)-1;
-        for($i=0;$i<=$contador;$i++){
-        $infoalumno=Alumno::where('id',$array[$i])->get();
+        for($k=0;$k<=$contador;$k++){
+        $infoalumno=Alumno::where('id',$array[$k])->get();
         foreach($infoalumno as $infalu){
         $nombrealumnos="$infalu->nombrealumno";
         $apellidoalumnos="$infalu->apellidoalumno";
@@ -519,9 +785,12 @@ class CriteriosevaluacionController extends Controller
         $nota->nombrealumno=$nombrealumnos;
         $nota->apellidoalumno=$apellidoalumnos;
         $nota->id_alumno=$idalumno;
-        $nota->espacio=$request->espaciocurricular;
+        foreach($nombreespacios as $nombreesp){
+        $nota->espacio="$nombreesp->nombre";
+        }
         $nota->grado=$gradodocente;
         $nota->save();
+        
         if($listadoinformes->isEmpty()){
         $informe=new Informes();
         $informe->observacion=$request->observacion;
@@ -530,12 +799,16 @@ class CriteriosevaluacionController extends Controller
         $informe->id_alumno=$idalumno;
         $informe->docente=Auth::user()->id;
         $informe->periodo=$nuevocriterio->periodo;
-        $informe->espacio=$request->espaciocurricular;
+        foreach($nombreespacios as $nombreesp){
+        $informe->espacio="$nombreesp->nombre";
+        }
         $informe->grado=$gradodocente;
         $informe->save();
         }
     }
     }
+        }
+        }
         }
         }
         if($request->guardar=='1'){
@@ -805,8 +1078,8 @@ class CriteriosevaluacionController extends Controller
         $docentesespeciales = preg_replace('/[\[\]\.\;\" "]+/', '', $docentesespeciales);
         $docentesespeciales=explode(',', $docentesespeciales);
         $contador1=count($docentesespeciales)-1;
-        for($i=0;$i<=$contador1;$i++){
-            if($docentesespeciales[$i]==Auth::user()->idpersona){
+        for($k=0;$k<=$contador1;$k++){
+            if($docentesespeciales[$k]==Auth::user()->idpersona){
             $nombresgrado[]="$info->descripcion";
            
         $listadoalumnos="$info->id_alumnos";
@@ -925,7 +1198,7 @@ class CriteriosevaluacionController extends Controller
         }
         }       
         }
-        elseif(empty($check2) and empty($infoespacio)){
+        elseif(empty($check2)){
         if(empty($checkperiodo)){
         $request->validate([
         'criterio' => ['required','max:50'],
@@ -949,8 +1222,8 @@ class CriteriosevaluacionController extends Controller
         $nuevocriterio->id_grado=$descripciongrado[$j];
         $nuevocriterio->id_espacio=$espaciodocente;
         $nuevocriterio->save();
-        $infogrado=Grado::where('id_anio',$idaño)->where('colegio_id',$idcolegio)->where('descripcion',$request->grado)->get();
-        $listadoinformes=Informes::where('colegio_id',$idcolegio)->where('año',$idaño)->where('docente',Auth::user()->id)->where('grado',$request->grado)->where('periodo',$nuevocriterio->periodo)->get();
+        $infogrado=Grado::where('id_anio',$idaño)->where('colegio_id',$idcolegio)->where('descripcion',$descripciongrado[$j])->get();
+        $listadoinformes=Informes::where('colegio_id',$idcolegio)->where('año',$idaño)->where('docente',Auth::user()->id)->where('grado',$descripciongrado[$j])->where('periodo',$nuevocriterio->periodo)->get();
         foreach($infogrado as $info){
             $docentesespeciales="$info->id_docentesespe";
         $docentesespeciales = preg_replace('/[\[\]\.\;\" "]+/', '', $docentesespeciales);
@@ -964,8 +1237,8 @@ class CriteriosevaluacionController extends Controller
         $array = preg_replace('/[\[\]\.\;\" "]+/', '', $listadoalumnos);
         $array=explode("," , $array);
         $contador2=count($array)-1;
-        for($j=0;$j<=$contador2;$j++){
-        $infoalumno=Alumno::where('id',$array[$j])->get();
+        for($k=0;$k<=$contador2;$k++){
+        $infoalumno=Alumno::where('id',$array[$k])->get();
         foreach($infoalumno as $infalu){
         $nombrealumnos="$infalu->nombrealumno";
         $apellidoalumnos="$infalu->apellidoalumno";
@@ -980,7 +1253,7 @@ class CriteriosevaluacionController extends Controller
         $nota->nombrealumno=$nombrealumnos;
         $nota->apellidoalumno=$apellidoalumnos;
         $nota->id_alumno=$idalumno;
-        $nota->grado=$request->grado;
+        $nota->grado=$descripciongrado[$j];
         $nota->espacio=$espaciodocente;
         $nota->save();
         
@@ -992,7 +1265,7 @@ class CriteriosevaluacionController extends Controller
         $informe->id_alumno=$idalumno;
         $informe->docente=Auth::user()->id;
         $informe->periodo=$nuevocriterio->periodo;
-        $informe->grado=$request->grado;
+        $informe->grado=$descripciongrado[$j];
         $informe->espacio=$espaciodocente;
         $informe->save();
         }
@@ -1008,8 +1281,6 @@ class CriteriosevaluacionController extends Controller
         'criterio' => ['required','max:50'],
         'ponderacion' => ['required','int'],
         'descripcion' => ['max:150'],
-        'espaciocurricular' => ['required'],
-        'grado' => ['required'],
         'aplicagrados' => ['required'],
         ]);
         $grados=Grado::where('colegio_id',$idcolegio)->get();
@@ -1041,23 +1312,23 @@ class CriteriosevaluacionController extends Controller
         $nuevocriterio->periodo='Cuarta Etapa';
         }
         $nuevocriterio->save();
-        $infogrado=Grado::where('id_anio',$idaño)->where('colegio_id',$idcolegio)->where('descripcion',$request->grado)->get();
-        $listadoinformes=Informes::where('colegio_id',$idcolegio)->where('año',$idaño)->where('docente',Auth::user()->id)->where('grado',$request->grado)->where('periodo',$nuevocriterio->periodo)->get();
+        $infogrado=Grado::where('id_anio',$idaño)->where('colegio_id',$idcolegio)->where('descripcion',$descripciongrado[$j])->get();
+        $listadoinformes=Informes::where('colegio_id',$idcolegio)->where('año',$idaño)->where('docente',Auth::user()->id)->where('grado',$descripciongrado[$j])->where('periodo',$nuevocriterio->periodo)->get();
         foreach($infogrado as $info){
             $docentesespeciales="$info->id_docentesespe";
         $docentesespeciales = preg_replace('/[\[\]\.\;\" "]+/', '', $docentesespeciales);
         $docentesespeciales=explode(',', $docentesespeciales);
         $contador1=count($docentesespeciales)-1;
-        for($i=0;$i<=$contador1;$i++){
-            if($docentesespeciales[$i]==Auth::user()->idpersona){
+        for($k=0;$k<=$contador1;$k++){
+            if($docentesespeciales[$k]==Auth::user()->idpersona){
             $nombresgrado[]="$info->descripcion";
            
         $listadoalumnos="$info->id_alumnos";
         $array = preg_replace('/[\[\]\.\;\" "]+/', '', $listadoalumnos);
         $array=explode("," , $array);
         $contador2=count($array)-1;
-        for($j=0;$j<=$contador2;$j++){
-        $infoalumno=Alumno::where('id',$array[$j])->get();
+        for($m=0;$m<=$contador2;$m++){
+        $infoalumno=Alumno::where('id',$array[$m])->get();
         foreach($infoalumno as $infalu){
         $nombrealumnos="$infalu->nombrealumno";
         $apellidoalumnos="$infalu->apellidoalumno";
@@ -1072,7 +1343,7 @@ class CriteriosevaluacionController extends Controller
         $nota->nombrealumno=$nombrealumnos;
         $nota->apellidoalumno=$apellidoalumnos;
         $nota->id_alumno=$idalumno;
-        $nota->grado=$request->grado;
+        $nota->grado=$descripciongrado[$j];
         $nota->espacio=$espaciodocente;
         $nota->save();
         
@@ -1084,7 +1355,7 @@ class CriteriosevaluacionController extends Controller
         $informe->id_alumno=$idalumno;
         $informe->docente=Auth::user()->id;
         $informe->periodo=$nuevocriterio->periodo;
-        $informe->grado=$request->grado;
+        $informe->grado=$descripciongrado[$j];
         $informe->espacio=$espaciodocente;
         $informe->save();
         }
@@ -1115,8 +1386,8 @@ class CriteriosevaluacionController extends Controller
         $nuevocriterio->periodo='Tercer período';
         }
         $nuevocriterio->save();
-        $infogrado=Grado::where('id_anio',$idaño)->where('colegio_id',$idcolegio)->where('descripcion',$request->grado)->get();
-        $listadoinformes=Informes::where('colegio_id',$idcolegio)->where('año',$idaño)->where('docente',Auth::user()->id)->where('grado',$request->grado)->where('periodo',$nuevocriterio->periodo)->get();
+        $infogrado=Grado::where('id_anio',$idaño)->where('colegio_id',$idcolegio)->where('descripcion',$descripciongrado[$j])->get();
+        $listadoinformes=Informes::where('colegio_id',$idcolegio)->where('año',$idaño)->where('docente',Auth::user()->id)->where('grado',$descripciongrado[$j])->where('periodo',$nuevocriterio->periodo)->get();
         foreach($infogrado as $info){
             $docentesespeciales="$info->id_docentesespe";
         $docentesespeciales = preg_replace('/[\[\]\.\;\" "]+/', '', $docentesespeciales);
@@ -1146,7 +1417,7 @@ class CriteriosevaluacionController extends Controller
         $nota->nombrealumno=$nombrealumnos;
         $nota->apellidoalumno=$apellidoalumnos;
         $nota->id_alumno=$idalumno;
-        $nota->grado=$request->grado;
+        $nota->grado=$descripciongrado[$j];
         $nota->espacio=$espaciodocente;
         $nota->save();
         
@@ -1158,7 +1429,7 @@ class CriteriosevaluacionController extends Controller
         $informe->id_alumno=$idalumno;
         $informe->docente=Auth::user()->id;
         $informe->periodo=$nuevocriterio->periodo;
-        $informe->grado=$request->grado;
+        $informe->grado=$descripciongrado[$j];
         $informe->espacio=$espaciodocente;
         $informe->save();
         }
@@ -1186,23 +1457,23 @@ class CriteriosevaluacionController extends Controller
         $nuevocriterio->periodo='Segunda Etapa';
         }
         $nuevocriterio->save();
-        $infogrado=Grado::where('id_anio',$idaño)->where('colegio_id',$idcolegio)->where('descripcion',$request->grado)->get();
-        $listadoinformes=Informes::where('colegio_id',$idcolegio)->where('año',$idaño)->where('docente',Auth::user()->id)->where('grado',$request->grado)->where('periodo',$nuevocriterio->periodo)->get();
+        $infogrado=Grado::where('id_anio',$idaño)->where('colegio_id',$idcolegio)->where('descripcion',$descripciongrado[$j])->get();
+        $listadoinformes=Informes::where('colegio_id',$idcolegio)->where('año',$idaño)->where('docente',Auth::user()->id)->where('grado',$descripciongrado[$j])->where('periodo',$nuevocriterio->periodo)->get();
         foreach($infogrado as $info){
             $docentesespeciales="$info->id_docentesespe";
         $docentesespeciales = preg_replace('/[\[\]\.\;\" "]+/', '', $docentesespeciales);
         $docentesespeciales=explode(',', $docentesespeciales);
         $contador1=count($docentesespeciales)-1;
-        for($i=0;$i<=$contador1;$i++){
-            if($docentesespeciales[$i]==Auth::user()->idpersona){
+        for($k=0;$k<=$contador1;$k++){
+            if($docentesespeciales[$k]==Auth::user()->idpersona){
             $nombresgrado[]="$info->descripcion";
            
         $listadoalumnos="$info->id_alumnos";
         $array = preg_replace('/[\[\]\.\;\" "]+/', '', $listadoalumnos);
         $array=explode("," , $array);
         $contador2=count($array)-1;
-        for($j=0;$j<=$contador2;$j++){
-        $infoalumno=Alumno::where('id',$array[$j])->get();
+        for($m=0;$m<=$contador2;$m++){
+        $infoalumno=Alumno::where('id',$array[$m])->get();
         foreach($infoalumno as $infalu){
         $nombrealumnos="$infalu->nombrealumno";
         $apellidoalumnos="$infalu->apellidoalumno";
@@ -1217,7 +1488,7 @@ class CriteriosevaluacionController extends Controller
         $nota->nombrealumno=$nombrealumnos;
         $nota->apellidoalumno=$apellidoalumnos;
         $nota->id_alumno=$idalumno;
-        $nota->grado=$request->grado;
+        $nota->grado=$descripciongrado[$j];
         $nota->espacio=$espaciodocente;
         $nota->save();
         
@@ -1229,7 +1500,7 @@ class CriteriosevaluacionController extends Controller
         $informe->id_alumno=$idalumno;
         $informe->docente=Auth::user()->id;
         $informe->periodo=$nuevocriterio->periodo;
-        $informe->grado=$request->grado;
+        $informe->grado=$descripciongrado[$j];
         $informe->espacio=$espaciodocente;
         $informe->save();
         }
@@ -1257,8 +1528,8 @@ class CriteriosevaluacionController extends Controller
         $nuevocriterio->periodo='Segundo período';
         }
         $nuevocriterio->save();
-        $infogrado=Grado::where('id_anio',$idaño)->where('colegio_id',$idcolegio)->where('descripcion',$request->grado)->get();
-        $listadoinformes=Informes::where('colegio_id',$idcolegio)->where('año',$idaño)->where('docente',Auth::user()->id)->where('grado',$request->grado)->where('periodo',$nuevocriterio->periodo)->get();
+        $infogrado=Grado::where('id_anio',$idaño)->where('colegio_id',$idcolegio)->where('descripcion',$descripciongrado[$j])->get();
+        $listadoinformes=Informes::where('colegio_id',$idcolegio)->where('año',$idaño)->where('docente',Auth::user()->id)->where('grado',$descripciongrado[$j])->where('periodo',$nuevocriterio->periodo)->get();
         foreach($infogrado as $info){
             $docentesespeciales="$info->id_docentesespe";
         $docentesespeciales = preg_replace('/[\[\]\.\;\" "]+/', '', $docentesespeciales);
@@ -1288,7 +1559,7 @@ class CriteriosevaluacionController extends Controller
         $nota->nombrealumno=$nombrealumnos;
         $nota->apellidoalumno=$apellidoalumnos;
         $nota->id_alumno=$idalumno;
-        $nota->grado=$request->grado;
+        $nota->grado=$descripciongrado[$j];
         $nota->espacio=$espaciodocente;
         $nota->save();
         
@@ -1300,7 +1571,7 @@ class CriteriosevaluacionController extends Controller
         $informe->id_alumno=$idalumno;
         $informe->docente=Auth::user()->id;
         $informe->periodo=$nuevocriterio->periodo;
-        $informe->grado=$request->grado;
+        $informe->grado=$descripciongrado[$j];
         $informe->espacio=$espaciodocente;
         $informe->save();
         }
@@ -1314,6 +1585,7 @@ class CriteriosevaluacionController extends Controller
         }  
         }
         else{
+        if(empty($checkperiodo)){
         $request->validate([
         'criterio' => ['required','max:50'],
         'ponderacion' => ['required','int'],
@@ -1321,7 +1593,89 @@ class CriteriosevaluacionController extends Controller
         'grado'=> ['required'],
         'aplicadivisiones' => ['required'],
         ]);
-        $grados=Grado::where('colegio_id',$idcolegio)->get();
+        $gradoseleccionado=Grado::where('colegio_id',$idcolegio)->where('descripcion', $request->grado)->pluck("num_grado");
+        $gradoseleccionado = preg_replace('/[\[\]\.\;\" "]+/', '', $gradoseleccionado);
+        $grados=Grado::where('colegio_id',$idcolegio)->where('num_grado', $gradoseleccionado)->get();
+        foreach($grados as $grad){
+        $descripciongrado[]="$grad->descripcion";
+        }
+        $contador=count($descripciongrado)-1;
+        for($j=0;$j<=$contador;$j++){
+        $nuevocriterio=new CriteriosEvaluacion();
+        $nuevocriterio->criterio=$request->criterio;
+        $nuevocriterio->ponderacion=$request->ponderacion;
+        $nuevocriterio->descripcion=$request->descripcion;
+        $nuevocriterio->id_usuario=Auth::user()->id;
+        $nuevocriterio->id_año=$descripcionaño;
+        $nuevocriterio->id_grado=$descripciongrado[$j];
+        $nuevocriterio->id_espacio=$espaciodocente;
+        $nuevocriterio->periodo=$request->periodo;
+        $nuevocriterio->save();
+        $infogrado=Grado::where('id_anio',$idaño)->where('colegio_id',$idcolegio)->where('descripcion',$descripciongrado[$j])->get();
+        $listadoinformes=Informes::where('colegio_id',$idcolegio)->where('año',$idaño)->where('docente',Auth::user()->id)->where('grado',$descripciongrado[$j])->where('periodo',$nuevocriterio->periodo)->get();
+        foreach($infogrado as $info){
+            $docentesespeciales="$info->id_docentesespe";
+        $docentesespeciales = preg_replace('/[\[\]\.\;\" "]+/', '', $docentesespeciales);
+        $docentesespeciales=explode(',', $docentesespeciales);
+        $contador1=count($docentesespeciales)-1;
+        for($i=0;$i<=$contador1;$i++){
+            if($docentesespeciales[$i]==Auth::user()->idpersona){
+            $nombresgrado[]="$info->descripcion";
+           
+        $listadoalumnos="$info->id_alumnos";
+        $array = preg_replace('/[\[\]\.\;\" "]+/', '', $listadoalumnos);
+        $array=explode("," , $array);
+        $contador2=count($array)-1;
+        for($k=0;$k<=$contador2;$k++){
+        $infoalumno=Alumno::where('id',$array[$k])->get();
+        foreach($infoalumno as $infalu){
+        $nombrealumnos="$infalu->nombrealumno";
+        $apellidoalumnos="$infalu->apellidoalumno";
+        $idalumno="$infalu->id";
+        }
+        $nota=new Notas();
+        $nota->docente=$idusuario;
+        $nota->criterio=$nuevocriterio->criterio;
+        $nota->colegio_id=$idcolegio;
+        $nota->periodo=$nuevocriterio->periodo;
+        $nota->año=$idaño;
+        $nota->nombrealumno=$nombrealumnos;
+        $nota->apellidoalumno=$apellidoalumnos;
+        $nota->id_alumno=$idalumno;
+        $nota->grado=$descripciongrado[$j];
+        $nota->espacio=$espaciodocente;
+        $nota->save();
+        
+        if($listadoinformes->isEmpty()){
+        $informe=new Informes();
+        $informe->observacion=$request->observacion;
+        $informe->año=$idaño;
+        $informe->colegio_id=$idcolegio;
+        $informe->id_alumno=$idalumno;
+        $informe->docente=Auth::user()->id;
+        $informe->periodo=$nuevocriterio->periodo;
+        $informe->grado=$descripciongrado[$j];
+        $informe->espacio=$espaciodocente;
+        $informe->save();
+        }
+        
+         }
+        }
+    }
+    }
+        }
+    }
+        else{
+        $request->validate([
+        'criterio' => ['required','max:50'],
+        'ponderacion' => ['required','int'],
+        'descripcion' => ['max:150'],
+        'grado'=> ['required'],
+        'aplicadivisiones' => ['required'],
+        ]);
+        $gradoseleccionado=Grado::where('colegio_id',$idcolegio)->where('descripcion', $request->grado)->pluck("num_grado");
+        $gradoseleccionado = preg_replace('/[\[\]\.\;\" "]+/', '', $gradoseleccionado);
+        $grados=Grado::where('colegio_id',$idcolegio)->where('num_grado', $gradoseleccionado)->get();
         foreach($grados as $grad){
         $descripciongrado[]="$grad->descripcion";
         }
@@ -1350,8 +1704,8 @@ class CriteriosevaluacionController extends Controller
         $nuevocriterio->periodo='Cuarta Etapa';
         }
         $nuevocriterio->save();
-        $infogrado=Grado::where('id_anio',$idaño)->where('colegio_id',$idcolegio)->where('descripcion',$request->grado)->get();
-        $listadoinformes=Informes::where('colegio_id',$idcolegio)->where('año',$idaño)->where('docente',Auth::user()->id)->where('grado',$request->grado)->where('periodo',$nuevocriterio->periodo)->get();
+        $infogrado=Grado::where('id_anio',$idaño)->where('colegio_id',$idcolegio)->where('descripcion',$descripciongrado[$j])->get();
+        $listadoinformes=Informes::where('colegio_id',$idcolegio)->where('año',$idaño)->where('docente',Auth::user()->id)->where('grado',$descripciongrado[$j])->where('periodo',$nuevocriterio->periodo)->get();
         foreach($infogrado as $info){
             $docentesespeciales="$info->id_docentesespe";
         $docentesespeciales = preg_replace('/[\[\]\.\;\" "]+/', '', $docentesespeciales);
@@ -1381,7 +1735,7 @@ class CriteriosevaluacionController extends Controller
         $nota->nombrealumno=$nombrealumnos;
         $nota->apellidoalumno=$apellidoalumnos;
         $nota->id_alumno=$idalumno;
-        $nota->grado=$request->grado;
+        $nota->grado=$descripciongrado[$j];
         $nota->espacio=$espaciodocente;
         $nota->save();
         
@@ -1393,7 +1747,7 @@ class CriteriosevaluacionController extends Controller
         $informe->id_alumno=$idalumno;
         $informe->docente=Auth::user()->id;
         $informe->periodo=$nuevocriterio->periodo;
-        $informe->grado=$request->grado;
+        $informe->grado=$descripciongrado[$j];
         $informe->espacio=$espaciodocente;
         $informe->save();
         }
@@ -1424,8 +1778,8 @@ class CriteriosevaluacionController extends Controller
         $nuevocriterio->periodo='Tercera Etapa';
         }
         $nuevocriterio->save();
-        $infogrado=Grado::where('id_anio',$idaño)->where('colegio_id',$idcolegio)->where('descripcion',$request->grado)->get();
-        $listadoinformes=Informes::where('colegio_id',$idcolegio)->where('año',$idaño)->where('docente',Auth::user()->id)->where('grado',$request->grado)->where('periodo',$nuevocriterio->periodo)->get();
+        $infogrado=Grado::where('id_anio',$idaño)->where('colegio_id',$idcolegio)->where('descripcion',$descripciongrado[$j])->get();
+        $listadoinformes=Informes::where('colegio_id',$idcolegio)->where('año',$idaño)->where('docente',Auth::user()->id)->where('grado',$descripciongrado[$j])->where('periodo',$nuevocriterio->periodo)->get();
         foreach($infogrado as $info){
             $docentesespeciales="$info->id_docentesespe";
         $docentesespeciales = preg_replace('/[\[\]\.\;\" "]+/', '', $docentesespeciales);
@@ -1455,7 +1809,7 @@ class CriteriosevaluacionController extends Controller
         $nota->nombrealumno=$nombrealumnos;
         $nota->apellidoalumno=$apellidoalumnos;
         $nota->id_alumno=$idalumno;
-        $nota->grado=$request->grado;
+        $nota->grado=$descripciongrado[$j];
         $nota->espacio=$espaciodocente;
         $nota->save();
         
@@ -1467,7 +1821,7 @@ class CriteriosevaluacionController extends Controller
         $informe->id_alumno=$idalumno;
         $informe->docente=Auth::user()->id;
         $informe->periodo=$nuevocriterio->periodo;
-        $informe->grado=$request->grado;
+        $informe->grado=$descripciongrado[$j];
         $informe->espacio=$espaciodocente;
         $informe->save();
         }
@@ -1495,23 +1849,23 @@ class CriteriosevaluacionController extends Controller
         $nuevocriterio->periodo='Segunda Etapa';
         }
         $nuevocriterio->save();
-        $infogrado=Grado::where('id_anio',$idaño)->where('colegio_id',$idcolegio)->where('descripcion',$request->grado)->get();
-        $listadoinformes=Informes::where('colegio_id',$idcolegio)->where('año',$idaño)->where('docente',Auth::user()->id)->where('grado',$request->grado)->where('periodo',$nuevocriterio->periodo)->get();
+        $infogrado=Grado::where('id_anio',$idaño)->where('colegio_id',$idcolegio)->where('descripcion',$descripciongrado[$j])->get();
+        $listadoinformes=Informes::where('colegio_id',$idcolegio)->where('año',$idaño)->where('docente',Auth::user()->id)->where('grado',$descripciongrado[$j])->where('periodo',$nuevocriterio->periodo)->get();
         foreach($infogrado as $info){
             $docentesespeciales="$info->id_docentesespe";
         $docentesespeciales = preg_replace('/[\[\]\.\;\" "]+/', '', $docentesespeciales);
         $docentesespeciales=explode(',', $docentesespeciales);
         $contador1=count($docentesespeciales)-1;
-        for($i=0;$i<=$contador1;$i++){
-            if($docentesespeciales[$i]==Auth::user()->idpersona){
+        for($k=0;$k<=$contador1;$k++){
+            if($docentesespeciales[$k]==Auth::user()->idpersona){
             $nombresgrado[]="$info->descripcion";
            
         $listadoalumnos="$info->id_alumnos";
         $array = preg_replace('/[\[\]\.\;\" "]+/', '', $listadoalumnos);
         $array=explode("," , $array);
         $contador2=count($array)-1;
-        for($j=0;$j<=$contador2;$j++){
-        $infoalumno=Alumno::where('id',$array[$i])->get();
+        for($m=0;$m<=$contador2;$m++){
+        $infoalumno=Alumno::where('id',$array[$m])->get();
         foreach($infoalumno as $infalu){
         $nombrealumnos="$infalu->nombrealumno";
         $apellidoalumnos="$infalu->apellidoalumno";
@@ -1526,7 +1880,7 @@ class CriteriosevaluacionController extends Controller
         $nota->nombrealumno=$nombrealumnos;
         $nota->apellidoalumno=$apellidoalumnos;
         $nota->id_alumno=$idalumno;
-        $nota->grado=$request->grado;
+        $nota->grado=$descripciongrado[$j];
         $nota->espacio=$espaciodocente;
         $nota->save();
         
@@ -1538,7 +1892,7 @@ class CriteriosevaluacionController extends Controller
         $informe->id_alumno=$idalumno;
         $informe->docente=Auth::user()->id;
         $informe->periodo=$nuevocriterio->periodo;
-        $informe->grado=$request->grado;
+        $informe->grado=$descripciongrado[$j];
         $informe->espacio=$espaciodocente;
         $informe->save();
         }
@@ -1566,8 +1920,8 @@ class CriteriosevaluacionController extends Controller
         $nuevocriterio->periodo='Segunda Etapa';
         }
         $nuevocriterio->save();
-        $infogrado=Grado::where('id_anio',$idaño)->where('colegio_id',$idcolegio)->where('descripcion',$request->grado)->get();
-        $listadoinformes=Informes::where('colegio_id',$idcolegio)->where('año',$idaño)->where('docente',Auth::user()->id)->where('grado',$request->grado)->where('periodo',$nuevocriterio->periodo)->get();
+        $infogrado=Grado::where('id_anio',$idaño)->where('colegio_id',$idcolegio)->where('descripcion',$descripciongrado[$j])->get();
+        $listadoinformes=Informes::where('colegio_id',$idcolegio)->where('año',$idaño)->where('docente',Auth::user()->id)->where('grado',$descripciongrado[$j])->where('periodo',$nuevocriterio->periodo)->get();
         foreach($infogrado as $info){
             $docentesespeciales="$info->id_docentesespe";
         $docentesespeciales = preg_replace('/[\[\]\.\;\" "]+/', '', $docentesespeciales);
@@ -1597,7 +1951,7 @@ class CriteriosevaluacionController extends Controller
         $nota->nombrealumno=$nombrealumnos;
         $nota->apellidoalumno=$apellidoalumnos;
         $nota->id_alumno=$idalumno;
-        $nota->grado=$request->grado;
+        $nota->grado=$descripciongrado[$j];
         $nota->espacio=$espaciodocente;
         $nota->save();
         if($listadoinformes->isEmpty()){
@@ -1608,7 +1962,7 @@ class CriteriosevaluacionController extends Controller
         $informe->id_alumno=$idalumno;
         $informe->docente=Auth::user()->id;
         $informe->periodo=$nuevocriterio->periodo;
-        $informe->grado=$request->grado;
+        $informe->grado=$descripciongrado[$j];
         $informe->espacio=$espaciodocente;
         $informe->save();
         }
@@ -1617,6 +1971,7 @@ class CriteriosevaluacionController extends Controller
         }
     }
     }
+        }
         }
         }
         }

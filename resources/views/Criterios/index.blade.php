@@ -170,7 +170,17 @@
                               @endif
                               <tr>
                                 <td class="v-align-middle" >
-                                <label><strong>Descripción:</strong></label>  {{$criterio->descripcion}}
+                                <?php 
+                                if(empty($criterio->descripcion)){?>
+                                <label><strong>Descripción:</strong></label>-
+                                <?php  
+                                }
+                                else{?>
+                                <label><strong>Descripción:</strong></label>-
+                                {{$criterio->descripcion}}
+                                <?php  
+                                }
+                                ?>
                                 </td>
                               </tr>
                            </table>
@@ -367,7 +377,15 @@
                               @endif
                               <tr>
                                 <td class="v-align-middle" >
-                                <label><strong>Descripción:</strong></label>  {{$criterio->descripcion}}
+                                <?php 
+                                if(empty($criterio->descripcion)){
+                                }
+                                else{?>
+                                <label><strong>Descripción:</strong></label>
+                                {{$criterio->descripcion}}
+                                <?php  
+                                }
+                                ?>
                                 </td>
                               </tr>
                            </table>
