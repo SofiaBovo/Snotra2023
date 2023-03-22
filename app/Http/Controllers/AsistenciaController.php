@@ -245,7 +245,7 @@ class AsistenciaController extends Controller
     }
     if($tipodoc!='Grado'){
     $gradodocente=$request->gradodocente;
-    $infoasistencias=AsistenciaEspecial::where('docente',Auth::user()->idpersona)->where('colegio_id',$idcolegio)->where('grado',$gradodocente)->where('año_id',$idaño)->where('fecha',$fechaseleccionada)->get(); 
+    $infoasistencias=AsistenciaEspecial::where('docente',Auth::user()->idpersona)->where('colegio_id',$idcolegio)->where('grado',$gradodocente)->where('año_id',$idaño)->where('fecha',$fechaseleccionada)->get();
     }
     if($infoasistencias->isEmpty()){
     if($tipodoc=='Grado'){
@@ -500,15 +500,13 @@ class AsistenciaController extends Controller
     $gradodocente=Grado::where('id_docentes',Auth::user()->idpersona)->where('colegio_id',$idcolegio)->where('id_anio',$idaño)->pluck('descripcion');
     $infoasistencias=Asistencia::where('docente',Auth::user()->idpersona)->where('colegio_id',$idcolegio)->where('grado',$gradodocente)->where('año_id',$idaño)->where('mes',$mes)->get();
     $infoasistencia=$infoasistencias->unique('nombrealumno');
-   return view('asistencia.create',compact('tipodoc','infoasistencia','mes','infoasistencias','danger'));  
+   return view('asistencia.create',compact('tipodoc','infoasistencia','mes','infoasistencias','danger'));
     }
     if($tipodoc!='Grado'){
-    $infogrado=Grado::where('colegio_id',$idcolegio)->orderby('num_grado','ASC')->get();
     $mes=$request->mes;
-    $grado=$gradodocente;
-    $infoasistencia=AsistenciaEspecial::where('docente',Auth::user()->idpersona)->where('colegio_id',$idcolegio)->where('grado',$gradodocente)->where('año_id',$idaño)->where('mes',$mes)->get();
+    $infoasistencias=AsistenciaEspecial::where('docente',Auth::user()->idpersona)->where('colegio_id',$idcolegio)->where('grado',$gradodocente)->where('año_id',$idaño)->where('mes',$mes)->get();
     $infoasistencia=$infoasistencias->unique('nombrealumno');
-    return view('asistencia.create',compact('tipodoc','infoasistencia','mes','danger','gradodocente'));  
+    return view('asistencia.create',compact('tipodoc','infoasistencia','infoasistencias','mes','danger','gradodocente'));  
     }
 }
 }
