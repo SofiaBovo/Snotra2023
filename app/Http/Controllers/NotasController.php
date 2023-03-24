@@ -121,10 +121,15 @@ class NotasController extends Controller
         rsort($calificacion);
         $contador=count($calificacion)-1;
         for ($i=0; $i <= $contador ; $i++) { 
-        $califi[]=calificacioncualitativa::where('id_calificacion',$infocali[$i])->orderby('orden','DESC')->pluck("codigo");
-
-        $califica[]=calificacioncualitativa::where('id_calificacion',$infocali[$i])->orderby('orden','DESC')->pluck("calificacion");
+        
+        $cal[]=calificacioncualitativa::where('id_calificacion',$infocali[$i])->pluck("orden");
         }
+        rsort($cal);
+        for ($i=0; $i <= $contador ; $i++) { 
+        $califi[]=calificacioncualitativa::where('orden',$cal[$i])->pluck("codigo");
+        $califica[]=calificacioncualitativa::where('orden',$cal[$i])->pluck("calificacion");
+        }
+
         $califi = preg_replace('/[\[\]\.\;\""]+/', '', $califi);
         $califica = preg_replace('/[\[\]\.\;\""]+/', '', $califica);
         } 
@@ -737,9 +742,14 @@ public function buscadornotasfinales()
     rsort($calificacion);
     $contador=count($calificacion)-1;
     for ($i=0; $i <= $contador ; $i++) { 
-    $califi[]=calificacioncualitativa::where('id_calificacion',$infocali[$i])->orderby('orden','DESC')->pluck("codigo");
-    $califica[]=calificacioncualitativa::where('id_calificacion',$infocali[$i])->orderby('orden','ASC')->pluck("calificacion");
-    }
+        
+        $cal[]=calificacioncualitativa::where('id_calificacion',$infocali[$i])->pluck("orden");
+        }
+        rsort($cal);
+        for ($i=0; $i <= $contador ; $i++) { 
+        $califi[]=calificacioncualitativa::where('orden',$cal[$i])->pluck("codigo");
+        $califica[]=calificacioncualitativa::where('orden',$cal[$i])->pluck("calificacion");
+        }
     $califi = preg_replace('/[\[\]\.\;\""]+/', '', $califi);
     $califica = preg_replace('/[\[\]\.\;\""]+/', '', $califica);
     } 

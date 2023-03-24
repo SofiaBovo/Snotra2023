@@ -42,7 +42,7 @@ public function index()
     }
     $informacionperiodo=Colegio::where('id',$idcolegio)->pluck("periodo");
     $informacionperiodo = preg_replace('/[\[\]\.\;\" "]+/', '', $informacionperiodo);
-    return view('informacionalumnos.index',compact('informes','idalumno','nombreespacio','informacionperiodo','informesfinales'));
+    return view('informacionalumnos.index',compact('informes','idalumno','nombreespacio','informacionperiodo','informesfinales','descripcionaño'));
     }
 }
 }

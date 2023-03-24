@@ -45,7 +45,7 @@
       const app = initializeApp(firebaseConfig);
     </script>
 
-    @laravelPWA
+
 
     </head>
 
