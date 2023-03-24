@@ -6,15 +6,15 @@
   <div class="col-md-12">
   <div class="row">
   <div class="col-md-12">
-    <div class="card">
+   
+  @if(sizeof($idalumno)==0)
+ <div class="card">
       <div class="card-header" style="background-color:#FDFFBE; border-radius: 10px;">
       <h6 class="card-title">En esta sección se puede visualizar la información académica correspondiente al año lectivo {{$descripcionaño}} de cada uno de los alumnos.</h6>   
       </div>
     </div>
 <div class="row">
   </div>
-  @if(sizeof($idalumno)==0)
-
     <div class="card">
       <div class="card-header card-header-info">
       <h4 class="card-title">Información académica</h4>   

@@ -27,7 +27,7 @@ public function index()
     $idalumno=Alumno::where('familias_id',$idfamilia)->pluck('id');
     if(sizeof($idalumno)==0)
         {
-            return view('informacionalumnos.index',compact('idalumno'));
+            return view('informacionalumnos.index',compact('idalumno','descripcionaño'));
 
         }
     else{
