@@ -2,6 +2,7 @@
 <?php
       $detect = new Mobile_Detect;
 ?>
+  
 @section ('content')
  <div class="content">
    <div class="container-fluid">
@@ -139,13 +140,25 @@
                       <?php
                       }
                       else{?>
-                      <th>Valoración final &nbsp<a data-toggle="popover" title="Cálculo Nota Final" data-content="La nota final es obtenida automáticamente de acuerdo a las valoraciones cargadas y a la ponderación de cada criterio de evaluación."><i class="bi bi-exclamation-circle" class="text-primary" ></i></a>  </th>
+                      <th>Valoración final &nbsp<a data-toggle="modal" title="Mas Información" data-target="#myModal"><i class="bi bi-exclamation-circle"></i></a>
+                          <div class="modal fade bd-example-modal-lg" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+                          <div class="modal-dialog modal-lg">
+                          <div class="modal-content">
+                          <div class="modal-header" style="background-color:lightyellow;">
+                          <h5 class="modal-title" id="exampleModalLabel" ><strong >Cálculo Nota Final</strong></h5>
+                          <button type="button" class="close" data-dismiss="modal" title="Cerrar">&times;</button>
+                          </div>
+                          <div class="modal-body">
+                          <label >La nota final es obtenida automáticamente de acuerdo a las valoraciones cargadas y a la ponderación de cada criterio de evaluación.</label>
+
+                           </div>
+                      </th>
                       <?php 
                       }
                       ?>
                       <th>Síntesis de la etapa</th>
                     </thead>
-                    <script >$('[data-toggle="popover"]').popover();  </script>
+                    
                     @if(session('success'))
                     <div class="alert alert-success" role="success">
                     {{session('success')}}
