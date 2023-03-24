@@ -73,7 +73,7 @@ class CargaDocenteController extends Controller
         $espacurri=explode(',', $res);
         $contador=count($espacurri)-1;
         for ($i=0; $i <= $contador ; $i++) { 
-        $nombreespa=espacioscurriculares::where('id',$espacurri[$i])->get();
+        $nombreespa=espacioscurriculares::where('id',$espacurri[$i])->where('tipo','Especial')->get();
         foreach ($nombreespa as $nomes) {
             $nombreespacio[]="$nomes->nombre";
         }

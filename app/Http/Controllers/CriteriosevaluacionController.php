@@ -64,7 +64,13 @@ class CriteriosevaluacionController extends Controller
         $infocol=explode(',', $infocol);
         $contador=count($infocol)-1;
         for ($i=0; $i <= $contador ; $i++) { 
+        $nombreespa=espacioscurriculares::where('id',$infocol[$i])->get();
+        foreach($nombreespa as $nomespa){
+        $nombresp="$nomespa->tipo";
+        if($nombresp=='Grado'){
         $nombreespacios[]=espacioscurriculares::where('id',$infocol[$i])->pluck("nombre");
+        }
+        }
         }
         $nombresgrado=Grado::where('id_docentes',$idpersona)->where('id_anio',$idaño)->where('colegio_id',$idcolegio)->pluck("descripcion");
         return view('Criterios.create',compact('tipodoc','infoaño','infocol','valor','nombreespacios','informacionperiodo','nombresgrado'));

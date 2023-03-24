@@ -48,7 +48,13 @@ class NotasController extends Controller
         $infocol=explode(',', $infocol);
         $contador=count($infocol)-1;
         for ($i=0; $i <= $contador ; $i++) { 
+        $nombreespa=espacioscurriculares::where('id',$infocol[$i])->get();
+        foreach($nombreespa as $nomespa){
+        $nombresp="$nomespa->tipo";
+        if($nombresp=='Grado'){
         $nombreespacios[]=espacioscurriculares::where('id',$infocol[$i])->pluck("nombre");
+        }
+        }
         }
         $nombresgrado=Grado::where('id_docentes',$idpersona)->where('id_anio',$idaño)->where('colegio_id',$idcolegio)->pluck("descripcion");
         if(empty($nombresgrado)){
@@ -198,7 +204,13 @@ class NotasController extends Controller
         $infocol=explode(',', $infocol);
         $contador=count($infocol)-1;
         for ($i=0; $i <= $contador ; $i++) { 
+        $nombreespa=espacioscurriculares::where('id',$infocol[$i])->get();
+        foreach($nombreespa as $nomespa){
+        $nombresp="$nomespa->tipo";
+        if($nombresp=='Grado'){
         $nombreespacios[]=espacioscurriculares::where('id',$infocol[$i])->pluck("nombre");
+        }
+        }
         }
         $nombresgrado=Grado::where('id_docentes',$idpersona)->where('id_anio',$añoactivo)->where('colegio_id',$idcolegio)->pluck("descripcion");
         
@@ -265,7 +277,13 @@ class NotasController extends Controller
         $infocol=explode(',', $infocol);
         $contador=count($infocol)-1;
         for ($i=0; $i <= $contador ; $i++) { 
+        $nombreespa=espacioscurriculares::where('id',$infocol[$i])->get();
+        foreach($nombreespa as $nomespa){
+        $nombresp="$nomespa->tipo";
+        if($nombresp=='Grado'){
         $nombreespacios[]=espacioscurriculares::where('id',$infocol[$i])->pluck("nombre");
+        }
+        }
         }
     $espacio=$request->espacio;
     $infonotas=Informes::where('docente',Auth::user()->id)->where('periodo',$periodo)->where('espacio',$espacio)->where('colegio_id',$idcolegio)->where('año',$añoactivo)->pluck("id_alumno");
@@ -670,7 +688,13 @@ public function buscadornotasfinales()
         $infocol=explode(',', $infocol);
         $contador=count($infocol)-1;
         for ($i=0; $i <= $contador ; $i++) { 
+        $nombreespa=espacioscurriculares::where('id',$infocol[$i])->get();
+        foreach($nombreespa as $nomespa){
+        $nombresp="$nomespa->tipo";
+        if($nombresp=='Grado'){
         $nombreespacios[]=espacioscurriculares::where('id',$infocol[$i])->pluck("nombre");
+        }
+        }
         }
          $nombresgrado=Grado::where('id_docentes',$idpersona)->where('id_anio',$idaño)->where('colegio_id',$idcolegio)->pluck("descripcion");
         if(empty($nombresgrado)){
@@ -817,7 +841,13 @@ public function buscadornotasfinales()
     $infocol=explode(',', $infocol);
     $contador=count($infocol)-1;
     for ($i=0; $i <= $contador ; $i++) { 
-    $nombreespacios[]=espacioscurriculares::where('id',$infocol[$i])->pluck("nombre");
+        $nombreespa=espacioscurriculares::where('id',$infocol[$i])->get();
+        foreach($nombreespa as $nomespa){
+        $nombresp="$nomespa->tipo";
+        if($nombresp=='Grado'){
+        $nombreespacios[]=espacioscurriculares::where('id',$infocol[$i])->pluck("nombre");
+        }
+        }
         }
     $nombresgrado=Grado::where('id_docentes',$idpersona)->where('id_anio',$añoactivo)->where('colegio_id',$idcolegio)->pluck("descripcion");
     if($infoco==NULL){
@@ -891,7 +921,13 @@ public function updateobservacionfinal(Request $request,$id_alumnos)
         $infocol=explode(',', $infocol);
         $contador=count($infocol)-1;
         for ($i=0; $i <= $contador ; $i++) { 
+        $nombreespa=espacioscurriculares::where('id',$infocol[$i])->get();
+        foreach($nombreespa as $nomespa){
+        $nombresp="$nomespa->tipo";
+        if($nombresp=='Grado'){
         $nombreespacios[]=espacioscurriculares::where('id',$infocol[$i])->pluck("nombre");
+        }
+        }
         }
     $espacio=$request->espacio;
     $data= $request->observacion;
@@ -949,7 +985,13 @@ public function updatenotafinal(Request $request)
         $infocol=explode(',', $infocol);
         $contador=count($infocol)-1;
         for ($i=0; $i <= $contador ; $i++) { 
+        $nombreespa=espacioscurriculares::where('id',$infocol[$i])->get();
+        foreach($nombreespa as $nomespa){
+        $nombresp="$nomespa->tipo";
+        if($nombresp=='Grado'){
         $nombreespacios[]=espacioscurriculares::where('id',$infocol[$i])->pluck("nombre");
+        }
+        }
         }
     $espacio=$request->espacio;
     $alumnonota=NotaFinal::where('espacio',$espacio)->where('colegio_id',$idcolegio)->where('año',$añoactivo)->pluck('id_alumno');

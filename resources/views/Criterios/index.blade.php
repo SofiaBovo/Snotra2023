@@ -172,11 +172,11 @@
                                 <td class="v-align-middle" >
                                 <?php 
                                 if(empty($criterio->descripcion)){?>
-                                <label><strong>Descripción:</strong></label>-
+                                <label><strong>Descripción:</strong></label>&nbsp -
                                 <?php  
                                 }
                                 else{?>
-                                <label><strong>Descripción:</strong></label>-
+                                <label><strong>Descripción:</strong></label>&nbsp -
                                 {{$criterio->descripcion}}
                                 <?php  
                                 }
