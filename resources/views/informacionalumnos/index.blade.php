@@ -1,4 +1,7 @@
 @extends('layouts.main' , ['activePage' => 'infoalumnos', 'titlePage => Información académica'])
+<?php
+$detect = new Mobile_Detect;
+?>
 @section ('content')
 <div class="content">
   <div class="container-fluid">
@@ -6,16 +9,40 @@
   <div class="col-md-12">
   <div class="row">
   <div class="col-md-12">
-   
-  @if(sizeof($idalumno)==0)
- <div class="card">
+    <?php 
+        if ($detect->isMobile() or $detect->isTablet()) {?>
+            <div class="card" style="margin-top: 2%; width: 95%; margin-left: 1%;">
+      <div class="card-header" style="background-color:#FDFFBE; border-radius: 10px;">
+      <h6 class="card-title">En esta sección se puede visualizar la información académica correspondiente al año lectivo {{$descripcionaño}} de cada uno de los alumnos.</h6>   
+      </div>
+    </div>
+<br>
+<br>
+
+  <?php
+        }
+        else{?>
+     <div class="card">
       <div class="card-header" style="background-color:#FDFFBE; border-radius: 10px;">
       <h6 class="card-title">En esta sección se puede visualizar la información académica correspondiente al año lectivo {{$descripcionaño}} de cada uno de los alumnos.</h6>   
       </div>
     </div>
 <div class="row">
   </div>
-    <div class="card">
+   <?php
+        }
+        ?>
+  @if(sizeof($idalumno)==0)
+       <?php 
+        if ($detect->isMobile() or $detect->isTablet()) {?>
+        <div class="card" style="margin-top:-10%;margin-left:-3%;margin-right:0.1%;width:105%;">
+        <?php
+        }
+        else{?>
+        <div class="card">
+        <?php
+        }
+        ?>
       <div class="card-header card-header-info">
       <h4 class="card-title">Información académica</h4>   
       </div>
@@ -31,7 +58,16 @@
   $contadoralumnos=count($idalumno)-1;
   $contadornotasfinales=count($informesfinales)-1;
   for($j=0;$j<=$contadoralumnos;$j++){?>
-  <div class="card">
+         <?php 
+        if ($detect->isMobile() or $detect->isTablet()) {?>
+        <div class="card" style="margin-top:-10%;margin-left:-3%;margin-right:0.1%;width:105%;">
+        <?php
+        }
+        else{?>
+        <div class="card">
+        <?php
+        }
+        ?>
       <div class="card-header card-header-info">
         <?php 
         $nombrealumno=App\Models\Alumno::where('id',$idalumno[$j])->pluck('nombrecompleto');
@@ -39,7 +75,7 @@
         ?>
         <h4 class="card-title"><i class="fa-solid fa-user-graduate"></i> {{$nombrealumno}}</h4>   
       </div>
-       <div class="card-body">
+       <div class="card-body" >
         <div class="table-responsive">
                 <table class="table">
                   <thead class="text-primary">
