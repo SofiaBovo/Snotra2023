@@ -84,7 +84,7 @@ $detect = new Mobile_Detect;
                     </div>
                     <div class="modal-body">
                       <label>Comentario</label>
-                      <textarea class="form-control" rows="3" name="justificacion" id="justificacion" style="border: thin solid lightgrey;" aria-describedby="comentHelp" maxlength="200" value="{{$infoasist->comentariojusti}}">{{$infoasist->comentariojusti}}</textarea>
+                      <textarea class="form-control" rows="3" name="justificacion" id="justificacion" style="border: thin solid lightgrey;" aria-describedby="comentHelp" disabled maxlength="200" value="{{$infoasist->comentariojusti}}">{{$infoasist->comentariojusti}}</textarea>
                       <br>
                       <?php 
                       if(empty($infoasist->archivojusti)){?>
