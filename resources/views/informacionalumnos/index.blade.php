@@ -13,7 +13,7 @@ $detect = new Mobile_Detect;
         if ($detect->isMobile() or $detect->isTablet()) {?>
             <div class="card" style="margin-top: 2%; width: 95%; margin-left: 1%;">
       <div class="card-header" style="background-color:#FDFFBE; border-radius: 10px;">
-      <h6 class="card-title">En esta sección se puede visualizar la información académica correspondiente al año lectivo {{$descripcionaño}} de cada uno de los alumnos.</h6>   
+      <h6 class="card-title">En esta sección se puede visualizar la información académica de cada uno de los alumnos correspondiente al año lectivo {{$descripcionaño}}.</h6>   
       </div>
     </div>
 <br>
@@ -24,7 +24,7 @@ $detect = new Mobile_Detect;
         else{?>
      <div class="card">
       <div class="card-header" style="background-color:#FDFFBE; border-radius: 10px;">
-      <h6 class="card-title">En esta sección se puede visualizar la información académica correspondiente al año lectivo {{$descripcionaño}} de cada uno de los alumnos.</h6>   
+      <h6 class="card-title">En esta sección se puede visualizar la información académica de cada uno de los alumnos correspondiente al año lectivo {{$descripcionaño}}.</h6>   
       </div>
     </div>
 <div class="row">
