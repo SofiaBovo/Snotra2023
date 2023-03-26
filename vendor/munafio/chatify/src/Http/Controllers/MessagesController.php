@@ -19,7 +19,7 @@ use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 class MessagesController extends Controller
 {
-    protected $perPage = 30;
+    protected $perPage = 10;
     protected $messengerFallbackColor = '#2180f3';
 
     /**
@@ -252,11 +252,9 @@ class MessagesController extends Controller
             ->orWhere('ch_messages.to_id', Auth::user()->id);
         })
         ->where('users.id','!=',Auth::user()->id)
-        ->select('users.*',DB::raw('MAX(ch_messages.created_at) max_created_at'))
-        ->orderBy('max_created_at', 'desc')
         ->paginate($request->per_page ?? $this->perPage);
-
-        $usersList = $users->items();
+        
+        $usersList = $users->unique();
 
         if (count($usersList) > 0) {
             $contacts = '';
